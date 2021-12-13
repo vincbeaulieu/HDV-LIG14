@@ -10,4 +10,4 @@ mv $dir/SPOT-RNA/outputs/SEQUENCE_${name}.bpseq $dir/bpseq
 mv $dir/SPOT-RNA/outputs/SEQUENCE_${name}.prob $dir/prob
 mv $dir/SPOT-RNA/outputs/SEQUENCE_${name}.dbn $dir/dbn
 
-mv $dir/SPOT-RNA/sample_inputs/SEQUENCE_${name}.fasta $dir/fasta
+cp $dir/SPOT-RNA/sample_inputs/SEQUENCE_${name}.fasta $dir/fasta
