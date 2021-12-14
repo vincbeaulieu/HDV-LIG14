@@ -15,7 +15,7 @@ starting_index=$2 && [ -z "$2" ] && starting_index=0
 batch_count=$starting_index
 
 ending_index=16383
-commit_size=10
+commit_size=50 # Max commit size: 100 MB
 
 for name in $( eval echo {$starting_index..$ending_index} )
 do
