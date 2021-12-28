@@ -3,7 +3,7 @@
 URL: https://github.com/jaswindersingh2/SPOT-RNA  
 
 Fork: https://github.com/vincbeaulieu/SPOT-RNA  
-This fork contain a small fix to allow the code to work with tf2  
+*This fork contain a small fix to allow the code to work with tf2  
 
 ### References: ###    
   
