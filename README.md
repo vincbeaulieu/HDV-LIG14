@@ -13,6 +13,6 @@ M   G   R   K   S   K   S   Y   Y   Y   R   S   M   S
 
 The "git" folder hold the code used to launch the algorithm and organize the workspace on GitHub. After each batch of 100 generated, it check for any missing data and regenerate these when missing. Then, it upload to GitHub in batch of 50, to not exceed the 100MB upload limit.
 
-REFERENCES: 
-[1] https://github.com/jaswindersingh2/SPOT-RNA 
-[2] https://www.bioinformatics.org/sms/iupac.html 
+REFERENCES: __
+[1] https://github.com/jaswindersingh2/SPOT-RNA __
+[2] https://www.bioinformatics.org/sms/iupac.html __
