@@ -8,8 +8,8 @@ HDV-LIG14 (whole sequence)
 GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC  
 
 HDV-LIG14 (14 modified nucleotide IUPAC and position)  
-M &ensp; G &ensp; R &ensp; K   S   K   S   Y   Y   Y   R   S   M   S  
-12  21  22  27  37  54  64  67  71  72  77  82  84  85    
+M &ensp; G &ensp; R &ensp; K &ensp; S &ensp; K &ensp; S &ensp; Y &ensp; Y &ensp; Y &ensp; R &ensp; S &ensp; M &ensp; S  
+12 &ensp; 21 &ensp; 22 &ensp; 27 &ensp; 37 &ensp; 54 &ensp; 64 &ensp; 67 &ensp; 71 &ensp; 72 &ensp; 77 &ensp; 82 &ensp; 84 &ensp; 85
 
 The "git" folder hold the code used to launch the algorithm and organize the workspace on GitHub. After each batch of 100 generated, it check for any missing data and regenerate these when missing. Then, it upload to GitHub in batch of 50, to not exceed the 100MB upload limit.
 
