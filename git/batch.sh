@@ -1,4 +1,6 @@
 
+# Move the 4 ".sh" script in their parent directory "HDV-LIG14" before running the program. Then, ensure the terminal working directory is "HDV-LIG14".
+
 # Please run:
 # conda activate venv
 
