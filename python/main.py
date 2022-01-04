@@ -1,4 +1,5 @@
 import fasta_gen as fg
+import neural_network as nn
 
 def main():
     test()
@@ -6,7 +7,9 @@ def main():
     return 0
 
 def test():
-    fg.test()
+    # fg.test()
+    nn.test()
+    
     pass
 
 if __name__ == '__main__':
