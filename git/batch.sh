@@ -10,9 +10,9 @@ NC='\033[0m' # No Color
 
 dir=$(pwd)
 
+# sh batch.sh [batch_size] [stating_index]
 batch_size=$1 && [ -z "$1" ] && batch_size=1
 starting_index=$2 && [ -z "$2" ] && starting_index=0
-# sh batch.sh [batch_size] [stating_index]
 
 batch_count=$starting_index
 
@@ -27,7 +27,7 @@ do
         echo "${BOLD}Generating batch #${batch_count}${NC}"
         cd SPOT-RNA
 
-        python3 SPOT-RNA.py  --inputs sample_inputs/batch_sequence_${batch_count}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
+        python3 SPOT-RNA.py  --inputs sample_inputs/BATCH_SEQUENCE_${batch_count}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
         sleep 2
 
         cd -
