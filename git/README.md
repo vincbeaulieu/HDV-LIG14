@@ -7,13 +7,18 @@ batch - SPOT_RNA auto-generator and Git auto-upload in batch sequences
 sh batch.sh [batch_size] [stating_index]  
   
 ## Description:  
-SPOT_RNA auto-generator, with batch_size and starting sequence number as inputs. After every generated batch, missing data, if any, are solved, and all the generated data from the SPOT_RNA algorithm is uploaded to GitHub.  
-  
+SPOT_RNA auto-generator, with batch_size and starting sequence number as inputs. After every generated batch, missing data, if any, are solved, and all the generated data from the SPOT_RNA algorithm is uploaded to GitHub in batch of 50, to not exceed the 100MB upload limit.  
+
 ## Options:  
 Does not take any options.  
   
 ## Examples:  
-sh batch.sh 100 0  
+$ sh batch.sh 100 0  
+> Generating batch/size_100/BATCH_SEQUENCE_0
+> Generating batch/size_100/BATCH_SEQUENCE_100
+> Generating batch/size_100/BATCH_SEQUENCE_200
+> ...
+> Generating batch/size_100/BATCH_SEQUENCE_16300
 
 ## Bugs:  
 - Ending_index is set to 16383. The program does not take ending index as argument yet. Therefore, the value must be changed in the code itself (batch.sh - line 19) for custom ending index.  
