@@ -1,7 +1,7 @@
 # MAN PAGE #  
   
 ## Name:  
-batch.sh, git_upload.sh, git_add.sh, move.sh - SPOT_RNA auto-generator and Git auto-upload in batch sequences  
+batch.sh, git_add.sh, git_upload.sh, move.sh - SPOT_RNA auto-generator and Git auto-upload in batch sequences  
   
 ## Synopsis:  
 sh batch.sh [batch_size] [stating_index]  
