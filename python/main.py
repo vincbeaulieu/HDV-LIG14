@@ -5,9 +5,9 @@ def main():
 
     return 0
 
+def test():
+    fg.test()
+    pass
+
 if __name__ == '__main__':
     main()
-
-def test():
-    # fg.test()
-    pass

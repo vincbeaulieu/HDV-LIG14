@@ -27,7 +27,7 @@ do
         echo "${BOLD}Generating batch #${batch_count}${NC}"
         cd SPOT-RNA
 
-        python3 SPOT-RNA.py  --inputs sample_inputs/batch_sequence_${batch_count}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 0 --cpu 32
+        python3 SPOT-RNA.py  --inputs sample_inputs/batch_sequence_${batch_count}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
         sleep 2
 
         cd -
@@ -39,7 +39,7 @@ do
         echo "${RED}${BOLD}SEQUENCE_${name} ${NC}${RED}Fail to Generate Completely. Trying to resolve missing data...${NC}"
         cd SPOT-RNA
         
-        python3 SPOT-RNA.py  --inputs sample_inputs/SEQUENCE_${name}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 0
+        python3 SPOT-RNA.py  --inputs sample_inputs/SEQUENCE_${name}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1
         sleep 2
         cd -
     fi

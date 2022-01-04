@@ -1,19 +1,22 @@
 import pandas as pd
+import os
 
 HDV_LIG14 = "GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
 
 def fasta_gen(batch_size=None):
-    col_names = ['Genotype',
+    col_names = ['Sequence',
+                 'Genotype',
                  'HDV_fitness',
                  'HDV_delta',
-                 'Ligase_fitness']
+                 'Ligase_fitness',
+                 'Ligase_delta']
 
     # The CSV file was extracted with Excel
-    dataframe = pd.read_csv('HDV-LIG14_fitness_table.csv', usecols=col_names[:])
+    dataframe = pd.read_csv('python/HDV-LIG14_fitness_table.csv', usecols=col_names[:])
     
     dataset = dataframe.to_numpy()
     
-    genotypes = dataset[:, 0]
+    genotypes = dataset[:, 1]
 
     # nt stand for nucleotide
     nt_index = [0, 11, 12, 20, 22, 26, 27, 36, 37, 53, 54, 63, 64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
@@ -48,9 +51,22 @@ def fasta_gen(batch_size=None):
         fasta_name = '>SEQUENCE_' + str(gen_index)
         # print(fasta_name)
 
-        if batch_size == 1:
+        if batch_size == None:
+            # Create single file
+            if gen_index == 0:
+                # Create empty file or erase its content
+                os.makedirs(os.path.dirname('fasta/HDV-LIG14-Sequences.fasta'), exist_ok=True)
+                open('fasta/HDV-LIG14-Sequences.fasta', 'w').close()
+
+            # Append to single file
+            with open('fasta/HDV-LIG14-Sequences.fasta', 'a') as f:
+                f.writelines(fasta_name + '\n')
+                f.writelines(seq_str + '\n')
+
+        elif batch_size == 1:
             # Create individual file
-            fasta_file = 'fasta/SEQUENCE_' + str(gen_index) + '.fasta'
+            fasta_file = 'fasta/single/SEQUENCE_' + str(gen_index) + '.fasta'
+            os.makedirs(os.path.dirname(fasta_file), exist_ok=True)
 
             # Create file or overwrite if it exist
             with open(fasta_file, 'w') as f:
@@ -61,31 +77,28 @@ def fasta_gen(batch_size=None):
             # Create batch file
             if gen_index % batch_size == 0:
                 batch += 1
-                batch_name = 'batch/' + 'size_' + str(batch_size) + '/BATCH_SEQUENCE_' + str(gen_index) + '.fasta'
+                batch_file = 'fasta/batch/' + 'size_' + str(batch_size) + '/BATCH_SEQUENCE_' + str(gen_index) + '.fasta'
+                os.makedirs(os.path.dirname(batch_file), exist_ok=True)
                 # Create empty file or erase its content
-                open(batch_name, 'w').close()
+                open(batch_file, 'w').close()
             
             # Append to batch file
-            with open(batch_name, 'a') as f:
+            with open(batch_file, 'a') as f:
                 f.writelines(fasta_name + '\n')
                 f.writelines(seq_str + '\n')
 
         else:
-            # Create single file
-            if gen_index == 0:
-                # Create empty file or erase its content
-                open('HDV-LIG14-Sequences.fasta', 'w').close()
-
-            # Append to single file
-            with open('HDV-LIG14-Sequences.fasta', 'a') as f:
-                f.writelines(fasta_name + '\n')
-                f.writelines(seq_str + '\n')
+            print("fasta_gen: Invalid Argument")
+            exit(1)
+            
 
         gen_index += 1
     
     pass
 
 def test():
+    print("Testing Fasta Generator...")
+    
     # Testing single file
     fasta_gen()
 
