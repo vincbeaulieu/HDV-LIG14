@@ -96,7 +96,7 @@ def fasta_gen(batch_size=None):
     pass
 
 def test():
-    print("Testing Fasta Generator...")
+    print("Testing HDV-LIG14 Fasta Generator...")
     
     # Testing single file
     fasta_gen()
