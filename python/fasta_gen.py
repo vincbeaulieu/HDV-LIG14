@@ -91,7 +91,6 @@ def fasta_gen(batch_size=None):
             print("fasta_gen: Invalid Argument")
             exit(1)
             
-
         gen_index += 1
     
     pass
