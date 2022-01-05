@@ -78,8 +78,8 @@ def fasta_gen(batch_size=None):
             if gen_index % batch_size == 0:
                 batch += 1
                 batch_file = 'fasta/batch/' + 'size_' + str(batch_size) + '/BATCH_SEQUENCE_' + str(gen_index) + '.fasta'
-                os.makedirs(os.path.dirname(batch_file), exist_ok=True)
                 # Create empty file or erase its content
+                os.makedirs(os.path.dirname(batch_file), exist_ok=True)
                 open(batch_file, 'w').close()
             
             # Append to batch file

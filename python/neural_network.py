@@ -11,6 +11,11 @@ def neural_network():
 
     seq_amount = 16384
 
+    nt_dataset = []
+    db_dataset = []
+    kt_dataset = []
+    lp_dataset = []
+
     # Extract Data
     gen_index = 0
     while gen_index < seq_amount:
@@ -40,9 +45,24 @@ def neural_network():
         # print(kt_node)
         # print(lp_node)
 
-        # TODO : Feed data to 'Mixed Data' Neural Network
+        # Append to dataset arrays
+        nt_dataset.append(nt_node)
+        db_dataset.append(db_node)
+        kt_dataset.append(kt_node)
+        lp_dataset.append(lp_node)
 
         gen_index += 1
+
+    def dataset_to_csv(filepath, dataset):
+        pd.DataFrame(dataset).to_csv(filepath, index=False, header=False)
+    
+    # Exporting dataset to csv
+    dataset_to_csv('csv/nt_dataset.csv',nt_dataset)
+    dataset_to_csv('csv/db_dataset.csv',db_dataset)
+    dataset_to_csv('csv/kt_dataset.csv',kt_dataset)
+    dataset_to_csv('csv/lp_dataset.csv',lp_dataset)
+
+    # TODO : Feed data to 'Mixed Data' Neural Network
 
     pass
 
