@@ -20,19 +20,14 @@ def neural_network():
             for line in st_file:
                 lines.append(line)
 
-        # TODO : Check for #Warnings on line 3, if first char is not 'G', then add one line
+        # Check for '#Warning:' on line 3, if first char is '#', then shift down the reading index
+        shift = (0,1)[lines[3][0] == '#']
 
-        # Extract specific lines from '.st' file
-        nt_seq = lines[3] #nucleotides sequences
-        db_not = lines[4] #dot-parens (dot-brackets) notation
-        knots = lines[5]
-        loops = lines[6]
-
-        # Extract into array
-        nt_node = list(nt_seq)
-        db_node = list(db_not)
-        kt_node = list(knots)
-        lp_node = list(loops)
+        # Extract specific lines from '.st' file into arrays
+        nt_node = list(lines[3 + shift]) # nucleotides sequences
+        db_node = list(lines[4 + shift]) # dot-parens (dot-brackets) notation
+        kt_node = list(lines[5 + shift]) # knots
+        lp_node = list(lines[6 + shift]) # loops
 
         # Remove '\n' at the end
         nt_node.pop()
