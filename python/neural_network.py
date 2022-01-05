@@ -25,8 +25,9 @@ def neural_network():
             for line in st_file:
                 lines.append(line)
 
-        # Check for '#Warning:' on line 3, if first char is '#', then shift down the reading index
-        shift = (0,1)[lines[3][0] == '#']
+        # Check for '#Warning:', if first char is '#', then shift down the reading index
+        shift = 0
+        while lines[3 + shift][0] == '#': shift += 1
 
         # Extract specific lines from '.st' file into arrays
         nt_node = list(lines[3 + shift]) # nucleotides sequences
