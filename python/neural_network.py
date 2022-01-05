@@ -53,6 +53,9 @@ def neural_network():
 
 def test():
     print("Testing HDV-LIG14 Neural Network...")
+
+    # Testing Neural Network
     neural_network()
+
     pass
 
