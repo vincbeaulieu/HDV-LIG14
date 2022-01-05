@@ -23,7 +23,7 @@ def fasta_gen(batch_size=None):
 
     batch = 0
     gen_index = 0
-    while gen_index < len(genotypes):
+    while gen_index < len(genotypes): # 16384
         sequence = list(HDV_LIG14)
 
         char_index = 0
