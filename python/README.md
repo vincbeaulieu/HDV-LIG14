@@ -16,7 +16,7 @@ _Ensure the working directory of the Terminal is HDV-LIG14_
 More information about setting up the environment on Mac/Windows/Linux can be found here:  
 https://code.visualstudio.com/docs/python/python-tutorial  
   
-If you are still getting errors will running the code, you can do:  
+If you are still getting errors while running the code, you can do:  
   
 > pip freeze  
   
