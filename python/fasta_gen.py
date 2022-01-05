@@ -19,7 +19,7 @@ def fasta_gen(batch_size=None):
     genotypes = dataset[:, 1]
 
     # nt stand for nucleotide
-    nt_index = [0, 11, 12, 20, 22, 26, 27, 36, 37, 53, 54, 63, 64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
+    nt_position = [0, 11, 12, 20, 22, 26, 27, 36, 37, 53, 54, 63, 64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
 
     batch = 0
     gen_index = 0
@@ -30,9 +30,9 @@ def fasta_gen(batch_size=None):
         # print(genotypes[gen_index][char_index])
 
         i = 1
-        while i < len(nt_index) - 1:
-            _from = nt_index[i]
-            _to = nt_index[i + 1]
+        while i < len(nt_position) - 1:
+            _from = nt_position[i]
+            _to = nt_position[i + 1]
             _incr = _to - _from
 
             # print(i, end=' ')
