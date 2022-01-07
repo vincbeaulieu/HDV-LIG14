@@ -1,28 +1,17 @@
+import data as dt
 import pandas as pd
 import os
 
 def fasta_gen(batch_size=None):
-    col_names = ['Sequence',
-                 'Genotype',
-                 'HDV_fitness',
-                 'HDV_delta',
-                 'Ligase_fitness',
-                 'Ligase_delta']
 
-    # The CSV file was extracted with Excel
-    dataframe = pd.read_csv('python/HDV-LIG14_fitness_table.csv', usecols=col_names[:])
-    
-    dataset = dataframe.to_numpy()
-    
-    genotypes = dataset[:, 1]
-    
-    # nt stand for nucleotide
-    HDV_LIG14 = "GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
-    nt_position = [0, 11, 12, 20, 22, 26, 27, 36, 37, 53, 54, 63, 64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
+    seq_amount = dt.HDV_LIG14.seq_len
+    genotypes = dt.HDV_LIG14.genotypes
+    HDV_LIG14 = dt.HDV_LIG14.rna_sequence
+    nt_position = dt.HDV_LIG14.nt_position
 
     batch = 0
     gen_index = 0
-    while gen_index < len(genotypes): # 16384
+    while gen_index < seq_amount: # 16384
         sequence = list(HDV_LIG14)
 
         char_index = 0

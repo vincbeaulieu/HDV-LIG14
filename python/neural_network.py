@@ -1,4 +1,5 @@
 
+import data as dt
 import matplotlib as plt
 import numpy as np
 import pandas as pd
@@ -9,7 +10,7 @@ import tensorflow as tf
 
 def neural_network():
 
-    seq_amount = 16384
+    seq_amount = dt.HDV_LIG14.seq_len
 
     nt_dataset = []
     db_dataset = []
@@ -66,6 +67,10 @@ def neural_network():
     lp_dataframe = dataset_to_csv('csv/lp_dataset.csv',lp_dataset)
 
     # Import desired outputs
+    hdv_fit = dt.HDV_LIG14.hdv_fitness
+    hdv_del = dt.HDV_LIG14.hdv_delta
+    lig_fit = dt.HDV_LIG14.ligase_fitness
+    lig_del = dt.HDV_LIG14.ligase_delta
 
 
     # TODO : Feed data to 'Mixed Data' Neural Network
