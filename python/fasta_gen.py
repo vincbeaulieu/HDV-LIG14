@@ -1,8 +1,6 @@
 import pandas as pd
 import os
 
-HDV_LIG14 = "GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
-
 def fasta_gen(batch_size=None):
     col_names = ['Sequence',
                  'Genotype',
@@ -17,8 +15,9 @@ def fasta_gen(batch_size=None):
     dataset = dataframe.to_numpy()
     
     genotypes = dataset[:, 1]
-
+    
     # nt stand for nucleotide
+    HDV_LIG14 = "GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
     nt_position = [0, 11, 12, 20, 22, 26, 27, 36, 37, 53, 54, 63, 64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
 
     batch = 0
@@ -88,8 +87,7 @@ def fasta_gen(batch_size=None):
                 f.writelines(seq_str + '\n')
 
         else:
-            print("fasta_gen: Invalid Argument")
-            exit(1)
+            raise ValueError("fasta_gen: Invalid Argument")
             
         gen_index += 1
     

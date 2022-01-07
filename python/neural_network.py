@@ -16,7 +16,7 @@ def neural_network():
     kt_dataset = []
     lp_dataset = []
 
-    # Extract Data
+    # Extract Features
     gen_index = 0
     while gen_index < seq_amount:
         lines = []
@@ -25,7 +25,7 @@ def neural_network():
             for line in st_file:
                 lines.append(line)
 
-        # Check for '#Warning:', if first char is '#', then shift down the reading index
+        # Check for '#Warning:', while first char is '#', shift down reading index
         shift = 0
         while lines[3 + shift][0] == '#': shift += 1
 
@@ -55,13 +55,18 @@ def neural_network():
         gen_index += 1
 
     def dataset_to_csv(filepath, dataset):
-        pd.DataFrame(dataset).to_csv(filepath, index=False, header=False)
+        dataframe = pd.DataFrame(dataset)
+        dataframe.to_csv(filepath, index=False, header=False)
+        return dataframe
     
-    # Exporting dataset to csv
-    dataset_to_csv('csv/nt_dataset.csv',nt_dataset)
-    dataset_to_csv('csv/db_dataset.csv',db_dataset)
-    dataset_to_csv('csv/kt_dataset.csv',kt_dataset)
-    dataset_to_csv('csv/lp_dataset.csv',lp_dataset)
+    # Export dataset to csv
+    nt_dataframe = dataset_to_csv('csv/nt_dataset.csv',nt_dataset)
+    db_dataframe = dataset_to_csv('csv/db_dataset.csv',db_dataset)
+    kt_dataframe = dataset_to_csv('csv/kt_dataset.csv',kt_dataset)
+    lp_dataframe = dataset_to_csv('csv/lp_dataset.csv',lp_dataset)
+
+    # Import desired outputs
+
 
     # TODO : Feed data to 'Mixed Data' Neural Network
 
