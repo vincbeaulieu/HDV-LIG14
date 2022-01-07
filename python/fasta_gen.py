@@ -4,10 +4,10 @@ import os
 
 def fasta_gen(batch_size=None):
 
-    seq_amount = dt.HDV_LIG14.seq_len
+    seq_amount = dt.HDV_LIG14.seq_amount
     genotypes = dt.HDV_LIG14.genotypes
-    HDV_LIG14 = dt.HDV_LIG14.rna_sequence
-    nt_position = dt.HDV_LIG14.nt_position
+    HDV_LIG14 = dt.HDV_LIG14.hdv_rna_sequence
+    nt_position = dt.HDV_LIG14.hdv_nt_position
 
     batch = 0
     gen_index = 0

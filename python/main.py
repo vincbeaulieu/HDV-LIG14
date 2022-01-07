@@ -10,8 +10,8 @@ def main():
 
 def test():
     # dt.test()
-    fg.test()
-    nn.test()
+    # fg.test()
+    # nn.test()
     
     pass
 

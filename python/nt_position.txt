@@ -1,0 +1,33 @@
+HDV IUPAC nucleotides positions:
+M       11
+R       21
+K       26
+S       36
+S       50
+K       53
+S       63
+Y       66
+Y       70
+Y       71
+R       76
+S       81
+M       83
+S       84
+
+LIG IUPAC nucleotides positions:
+M       3
+R       13
+K       18
+S       28
+S       42
+K       45
+S       55
+Y       58
+Y       62
+Y       63
+R       68
+S       73
+M       75
+S       76
+
+* There might be an error in the provided assignment guides about the RED letters.

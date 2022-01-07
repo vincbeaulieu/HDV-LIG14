@@ -10,7 +10,7 @@ import tensorflow as tf
 
 def neural_network():
 
-    seq_amount = dt.HDV_LIG14.seq_len
+    seq_amount = dt.HDV_LIG14.seq_amount
 
     nt_dataset = []
     db_dataset = []

@@ -30,13 +30,21 @@ class HDV_LIG14():
         return self.dataframe.to_numpy()
 
     @classproperty
-    def rna_sequence(self):
+    def hdv_rna_sequence(self):
+        # HDV_Lib14_RNA
         return  'GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGG' \
                 'GAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCAT' \
                 'CGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC'
+    
+    @classproperty
+    def lig_rna_sequence(self):
+        # LIG_Lib14_RNA
+        return  'GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSG' \
+                'CKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGG' \
+                'TTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC'
 
     @classproperty
-    def nt_position(self):
+    def hdv_nt_position(self):
         # nt stand for nucleotide
         return [0, 11, 12, 20, 22, 26, 27, 36, 37, 53, 54, 63,
                 64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
@@ -71,7 +79,7 @@ class HDV_LIG14():
     #--- Attributes ---#
 
     @classproperty
-    def seq_len(self):
+    def seq_amount(self):
         # return array length
         return 16384
 
@@ -97,4 +105,29 @@ def test():
     # Attribute
     print(HDV_LIG14.seq_len)
 
+    # extractor() # See Below
+
     pass
+
+# Position Extractor
+def extractor():
+    LIG_Lib14_RNA = "GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
+    HDV_Lib14_RNA = "GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
+    
+    print("HDV IUPAC nucleotides positions:")
+    i = 0
+    for s in HDV_Lib14_RNA:
+        if s != 'A' and s != 'T' and s != 'C' and s != 'G':
+            print(s + '\t' + str(i))
+        i += 1
+    
+    print("LIG IUPAC nucleotides positions:")
+    i = 0
+    for s in LIG_Lib14_RNA:
+        if s != 'A' and s != 'T' and s != 'C' and s != 'G':
+            print(s + '\t' + str(i))
+        i += 1
+
+    # See 'nt_position.txt'
+
+# extractor()
