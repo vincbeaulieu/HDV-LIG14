@@ -72,6 +72,15 @@ def neural_network():
     lig_fit = dt.HDV_LIG14.ligase_fitness
     lig_del = dt.HDV_LIG14.ligase_delta
 
+    ## NOTE:
+    # * The neural network for the HDV sequences will be implemented first.
+    # * The neural network for the LIG sequences will be implemented in the
+    # * future when all the data will be regenerated using the correct indexing.
+
+    
+
+    
+
 
     # TODO : Feed data to 'Mixed Data' Neural Network
 
