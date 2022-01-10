@@ -11,7 +11,7 @@ def main():
 def test():
     # dt.test()
     # fg.test()
-    # nn.test()
+    nn.test()
     
     pass
 
