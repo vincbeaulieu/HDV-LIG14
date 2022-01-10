@@ -91,8 +91,8 @@ def test():
     print(HDV_LIG14.col_names)
     print(HDV_LIG14.dataframe)
     print(HDV_LIG14.dataset)
-    print(HDV_LIG14.rna_sequence)
-    print(HDV_LIG14.nt_position)
+    print(HDV_LIG14.hdv_rna_sequence)
+    print(HDV_LIG14.hdv_nt_position)
 
     # Dataset getters
     print(HDV_LIG14.sequences)
@@ -114,19 +114,18 @@ def extractor():
     LIG_Lib14_RNA = "GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
     HDV_Lib14_RNA = "GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC"
     
+    def get_nt_position(rna_type):
+        i = 0
+        for s in rna_type:
+            if s != 'A' and s != 'T' and s != 'C' and s != 'G':
+                print(s + '\t' + str(i))
+            i += 1
+        
     print("HDV IUPAC nucleotides positions:")
-    i = 0
-    for s in HDV_Lib14_RNA:
-        if s != 'A' and s != 'T' and s != 'C' and s != 'G':
-            print(s + '\t' + str(i))
-        i += 1
-    
+    get_nt_position(HDV_Lib14_RNA)
+
     print("LIG IUPAC nucleotides positions:")
-    i = 0
-    for s in LIG_Lib14_RNA:
-        if s != 'A' and s != 'T' and s != 'C' and s != 'G':
-            print(s + '\t' + str(i))
-        i += 1
+    get_nt_position(LIG_Lib14_RNA)
 
     # See 'nt_position.txt'
 
