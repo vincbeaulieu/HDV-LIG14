@@ -80,7 +80,7 @@ class HDV_LIG14():
 
     @classproperty
     def seq_amount(self):
-        # return array length
+        # return library array length
         return 16384
 
     pass
@@ -103,7 +103,7 @@ def test():
     print(HDV_LIG14.ligase_delta)
 
     # Attribute
-    print(HDV_LIG14.seq_len)
+    print(HDV_LIG14.seq_amount)
 
     # extractor() # See Below
 
@@ -116,10 +116,12 @@ def extractor():
     
     def get_nt_position(rna_type):
         i = 0
+        j = 0
         for s in rna_type:
             if s != 'A' and s != 'T' and s != 'C' and s != 'G':
-                print(s + '\t' + str(i))
-            i += 1
+                i += 1
+                print(str(i) + '\t' + s + '\t' + str(j))
+            j += 1
         
     print("HDV IUPAC nucleotides positions:")
     get_nt_position(HDV_Lib14_RNA)
