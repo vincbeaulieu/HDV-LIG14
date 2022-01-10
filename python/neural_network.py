@@ -132,9 +132,14 @@ def neural_network():
     dataset_to_csv('csv/encoded/kt_encoded.csv',kt_encoded)
     dataset_to_csv('csv/encoded/lp_encoded.csv',lp_encoded)
 
+    # Multi-Threading:
+    # https://www.tutorialspoint.com/python/python_multithreading.htm
 
-
-    
+    # Feature Extractions and Encoding
+    # * The dataset may have been wrongly generated due to an error in the instruction guide. Regeneration of the dataset will retake place using the previously written SPOT-RNA auto generator program, available in the "git" folder. An additional flag may be added to extract even more features. Extraction will take place on both the HDV-Lib14-RNA and LIG-Lib14-RNA sequences. Therefore, the size of the datasets will at least double.
+    # * Dot-bracket encoder is not completed, see "TODO" sections.
+    # * Nucleotide encoder may be further improved by using the corresponding IUPAC nt. This may be something to explore.
+    # * Implement multi-threading!
 
 
     # TODO : Feed data to 'Mixed Data' Neural Network
