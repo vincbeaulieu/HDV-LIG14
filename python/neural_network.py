@@ -92,9 +92,12 @@ def neural_network():
         map_const = dict(zip(categories[2], range(scales[2])))
 
         # counters:
-        i = 0
-        d = 0
-        c = 0
+        square = 0  # []
+        round = 0   # ()
+        curly = 0   # {}
+        angle = 0   # <>
+
+        
 
         # TODO: To be continued...
 
