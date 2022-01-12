@@ -75,7 +75,7 @@ def neural_network():
     ## NOTE:
     # * The neural network for the HDV sequences will be implemented first.
     # * The neural network for the LIG sequences will be implemented in the
-    # * future when all the data will be regenerated using the correct indexing.
+    #   future when all the data will be regenerated using the correct indexing.
 
     # Encoded Arrays
     nt_encoded = []
@@ -118,7 +118,7 @@ def neural_network():
         results = np.stack((R,S,C,A),axis=0)
         return results
     
-    
+    # Catch thread exception, if any
     ExceptionHandler = []
     def encoder_thread(encoded_file,encoded_list,encoder,sequences,categories=None):
         try:
@@ -140,7 +140,7 @@ def neural_network():
             kt_task = executor.submit(encoder_thread, 'csv/encoded/kt_encoded.csv', kt_encoded, one_hot_encoder, kt_dataset, "BEHIMSX")
             lp_task = executor.submit(encoder_thread, 'csv/encoded/lp_encoded.csv', lp_encoded, one_hot_encoder, lp_dataset, "NK")   
     
-    # Raise Exception if any
+    # Raise exception, if any
     for e in ExceptionHandler: raise(e) 
 
     # Multi-Threading:
