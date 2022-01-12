@@ -1,12 +1,12 @@
-## Names and Descriptions:
-main.py - Contain callable method to run the code described below.
-fasta_gen.py - Program writen to generate fasta file(s)
-data.py - Class which hold the characteristics and general attributes of the dataset
-neural_network.py - Program writen that extract features from the RNA sequences
-
-nt_position.txt - hold the exact position of the nucleotide using the IUPAC notation in a particular sequence.
-requirements.txt - Requirement to run the above softwares
-
+## Names and Descriptions:  
+main.py - Contain callable method to run the code described below.  
+fasta_gen.py - Program writen to generate fasta file(s).  
+data.py - Class which hold the characteristics and general attributes of the dataset.  
+neural_network.py - Program writen that extract features from the RNA sequences.  
+  
+nt_position.txt - hold the exact position of the nucleotide using the IUPAC notation in a particular sequence.  
+requirements.txt - Requirement to run the above softwares.  
+  
 ## Setup ##  
   
 The Python Virtual Environment (.venv folder) must be placed under the "HDV-LIG14" folder, and *NOT* in the "python" folder. Making the HDV-LIG14 as the working directory to access the SPOT-RNA generated data.  
