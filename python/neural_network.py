@@ -16,6 +16,54 @@ def dataset_to_csv(filepath, dataset):
     dataframe.to_csv(filepath, index=False, header=False)
     return dataframe
 
+# Read saved files
+def reader(filepath):
+    lines = []
+    with open(filepath, 'r') as file:
+        for line in file:
+            lines.append(line)
+    file.close()
+    return lines
+
+# Merge groups of n rows together. 
+def merge(lines,n):
+    index = 0
+    tmp_flat = []
+    flat_array = []
+    for line in lines:
+        if index == 0:
+            tmp_flat = line[:-1].split(",")
+        elif index % n != 0:
+            tmp_flat = [*tmp_flat, *line[:-1].split(",")] 
+        else:
+            flat_array.append(tmp_flat)
+            tmp_flat = line[:-1].split(",")
+        index += 1
+    return flat_array
+
+# Flatten the data
+def flattener():
+
+    nt_flat = []
+    lines = reader('csv/encoded/nt_encoded.csv')
+    nt_flat = merge(lines,3)
+    dataset_to_csv('csv/flat/nt_flat.csv',nt_flat)
+
+    db_flat = []
+    lines = reader('csv/encoded/db_encoded.csv')
+    db_flat = merge(lines,4)
+    dataset_to_csv('csv/flat/db_flat.csv',db_flat)
+
+    kt_flat = []
+    lines = reader('csv/encoded/kt_encoded.csv')
+    kt_flat = merge(lines,6)
+    dataset_to_csv('csv/flat/kt_flat.csv',kt_flat)
+    
+    lp_flat = []
+    lines = reader('csv/encoded/lp_encoded.csv')
+    lp_flat = merge(lines,1)
+    dataset_to_csv('csv/flat/lp_flat.csv',lp_flat)
+
 # One Hot Encoder
 def one_hot_encoder(sequence,categories,scale=None,remove_last=True):
     scale = (scale,len(categories))[scale==None]
@@ -50,85 +98,6 @@ def dot_bracket_encoder(sequence,categories=None):
     # Stack the 4 categories
     results = np.stack((R,S,C,A),axis=0)
     return results
-
-# Read saved files
-def reader(filepath):
-    lines = []
-    with open(filepath, 'r') as file:
-        for line in file:
-            lines.append(line)
-    file.close()
-    return lines
-
-# Flatten the data
-def flatter():
-
-    def merge(lines,n):
-        index = 0
-        tmp_flat = []
-        flat_array = []
-        for line in lines:
-            if index == 0:
-                tmp_flat = line[:-1].split(",")
-            elif index % n != 0:
-                tmp_flat = [*tmp_flat, *line[:-1].split(",")] 
-            else:
-                flat_array.append(tmp_flat)
-                tmp_flat = line[:-1].split(",")
-            index += 1
-        return flat_array
-
-    nt_flat = []
-    lines = reader('csv/encoded/nt_encoded.csv')
-    nt_flat = merge(lines,3)
-    dataset_to_csv('csv/flat/nt_flat.csv',nt_flat)
-
-    db_flat = []
-    lines = reader('csv/encoded/db_encoded.csv')
-    db_flat = merge(lines,4)
-    dataset_to_csv('csv/flat/db_flat.csv',db_flat)
-
-    kt_flat = []
-    lines = reader('csv/encoded/kt_encoded.csv')
-    kt_flat = merge(lines,6)
-    dataset_to_csv('csv/flat/kt_flat.csv',kt_flat)
-    
-    lp_flat = []
-    lines = reader('csv/encoded/lp_encoded.csv')
-    lp_flat = merge(lines,1)
-    dataset_to_csv('csv/flat/lp_flat.csv',lp_flat)
-
-def neural_network():
-
-    # ANN for NT Data
-
-
-    # from sklearn.model_selection import train_test_split
-    # in_train, in_test, out_train, out_test = train_test_split(in, out, test_size=1/10, random_state=0)
-    # NOTE: 10-fold crossvalidation may be implemented 
-
-    ## ann stand for Artificial Neural Network
-    nt_ann = tfk.models.Sequential()
-
-    # Nucleotide input layer
-    nt_ann.add(tfk.layers.Dense(units=14*3, activation='relu'))
-
-    # 2 stack of hidden layers
-    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
-    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
-
-    # Output layer
-    nt_ann.add(tfk.layers.Dense(units=2, activation='sigmoid'))
-
-    # Generate the ANN
-    nt_ann.compile( optimizer = 'adam', 
-                    loss = 'binary_crossentropy', 
-                    metrics = ['accuracy'] )
-    
-    # Feed data to Neural Network
-    # NOTE: Lookup 'Mixed Data' Neural Network
-    # nt_ann.fit()
-
 
 def extractor():
     ## Feature Extractions and Encoding
@@ -215,14 +184,42 @@ def extractor():
     # * Nucleotide encoder may further be improved by using the corresponding IUPAC nt. This may be something to explore.
     # * Further extract and scale the data may improve results, such as removing unchanging nodes/variables from the dataset.csv. Perhaps, a scaled/xx_datasets.csv.
 
+def neural_network():
+
+    # ANN for NT Data
+
+    # from sklearn.model_selection import train_test_split
+    # in_train, in_test, out_train, out_test = train_test_split(in, out, test_size=1/10, random_state=0)
+    # NOTE: 10-fold crossvalidation may be implemented 
+
+    ## ann stand for Artificial Neural Network
+    nt_ann = tfk.models.Sequential()
+
+    # Nucleotide input layer
+    nt_ann.add(tfk.layers.Dense(units=14*3, activation='relu'))
+
+    # 2 stack of hidden layers
+    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
+    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
+
+    # Output layer
+    nt_ann.add(tfk.layers.Dense(units=2, activation='sigmoid'))
+
+    # Generate the ANN
+    nt_ann.compile( optimizer = 'adam', 
+                    loss = 'binary_crossentropy', 
+                    metrics = ['accuracy'] )
+    
+    # Feed data to Neural Network
+    # NOTE: Lookup 'Mixed Data' Neural Network
+    # nt_ann.fit()
+
 def test():
     print("Testing HDV-LIG14 Neural Network...")
 
     # Testing Neural Network
     extractor()
-    flatter()
+    flattener()
     neural_network()
 
     pass
-
-test()
