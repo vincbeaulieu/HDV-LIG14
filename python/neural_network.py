@@ -1,3 +1,4 @@
+from scipy.sparse import data
 import data as dt
 import numpy as np
 import pandas as pd
@@ -39,30 +40,8 @@ def merge(lines,n):
             flat_array.append(tmp_flat)
             tmp_flat = line[:-1].split(",")
         index += 1
+    flat_array.append(tmp_flat)
     return flat_array
-
-# Flatten the data
-def flattener():
-
-    nt_flat = []
-    lines = reader('csv/encoded/nt_encoded.csv')
-    nt_flat = merge(lines,3)
-    dataset_to_csv('csv/flat/nt_flat.csv',nt_flat)
-
-    db_flat = []
-    lines = reader('csv/encoded/db_encoded.csv')
-    db_flat = merge(lines,4)
-    dataset_to_csv('csv/flat/db_flat.csv',db_flat)
-
-    kt_flat = []
-    lines = reader('csv/encoded/kt_encoded.csv')
-    kt_flat = merge(lines,6)
-    dataset_to_csv('csv/flat/kt_flat.csv',kt_flat)
-    
-    lp_flat = []
-    lines = reader('csv/encoded/lp_encoded.csv')
-    lp_flat = merge(lines,1)
-    dataset_to_csv('csv/flat/lp_flat.csv',lp_flat)
 
 # One Hot Encoder
 def one_hot_encoder(sequence,categories,scale=None,remove_last=True):
@@ -139,11 +118,7 @@ def extractor():
     kt_dataframe = dataset_to_csv('csv/dataset/kt_dataset.csv',kt_dataset)
     lp_dataframe = dataset_to_csv('csv/dataset/lp_dataset.csv',lp_dataset)
 
-    # Import desired outputs
-    hdv_fit = dt.HDV_LIG14.hdv_fitness
-    hdv_del = dt.HDV_LIG14.hdv_delta
-    lig_fit = dt.HDV_LIG14.ligase_fitness
-    lig_del = dt.HDV_LIG14.ligase_delta
+
 
     # Encoded Arrays
     nt_encoded = []
@@ -185,18 +160,50 @@ def extractor():
     # * Further extract and scale the data may improve results, such as removing unchanging nodes/variables from the dataset.csv. Perhaps, a scaled/xx_datasets.csv.
 
 def neural_network():
+    # Import desired outputs
+    hdv_fit = dt.HDV_LIG14.hdv_fitness
+    hdv_del = dt.HDV_LIG14.hdv_delta
+    lig_fit = dt.HDV_LIG14.ligase_fitness
+    lig_del = dt.HDV_LIG14.ligase_delta
+
+    # Flatten the data
+    nt_flat = []
+    lines = reader('csv/encoded/nt_encoded.csv')
+    nt_flat = merge(lines,3)
+    nt_flat = dataset_to_csv('csv/flat/nt_flat.csv',nt_flat)
+
+    db_flat = []
+    lines = reader('csv/encoded/db_encoded.csv')
+    db_flat = merge(lines,4)
+    db_flat = dataset_to_csv('csv/flat/db_flat.csv',db_flat)
+
+    kt_flat = []
+    lines = reader('csv/encoded/kt_encoded.csv')
+    kt_flat = merge(lines,6)
+    kt_flat = dataset_to_csv('csv/flat/kt_flat.csv',kt_flat)
+    
+    lp_flat = []
+    lines = reader('csv/encoded/lp_encoded.csv')
+    lp_flat = merge(lines,1)
+    lp_flat = dataset_to_csv('csv/flat/lp_flat.csv',lp_flat)
+
+    hdv_flat = [hdv_fit, hdv_del]
+    hdv_flat = np.transpose(hdv_flat)
+    hdv_flat = dataset_to_csv('csv/flat/hdv_flat.csv',hdv_flat)
+
+    # TODO: fixing error:
+    # ValueError: Failed to convert a NumPy array to a Tensor (Unsupported object type float).
 
     # ANN for NT Data
-
-    # from sklearn.model_selection import train_test_split
-    # in_train, in_test, out_train, out_test = train_test_split(in, out, test_size=1/10, random_state=0)
+    from sklearn.model_selection import train_test_split
+    in_train, in_test, out_train, out_test = train_test_split(nt_flat, hdv_flat, test_size=1/10, random_state=0)
     # NOTE: 10-fold crossvalidation may be implemented 
 
     ## ann stand for Artificial Neural Network
     nt_ann = tfk.models.Sequential()
 
     # Nucleotide input layer
-    nt_ann.add(tfk.layers.Dense(units=14*3, activation='relu'))
+    nt_ann.add(tfk.layers.Dense(units=42, activation='relu'))
 
     # 2 stack of hidden layers
     nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
@@ -212,14 +219,21 @@ def neural_network():
     
     # Feed data to Neural Network
     # NOTE: Lookup 'Mixed Data' Neural Network
-    # nt_ann.fit()
+    nt_ann.fit(in_train, out_train, batch_size = 32, epochs = 100)
+
+    prediction = nt_ann.predict(in_test)
+    print(np.concatenate((prediction.reshape(len(prediction),1), out_test.reshape(len(out_test),1)),1))
+    
+    # Making the Confusion Matrix
+    from sklearn.metrics import confusion_matrix, accuracy_score
+    print(confusion_matrix(out_test, prediction))
+    accuracy_score(out_test, prediction)
 
 def test():
     print("Testing HDV-LIG14 Neural Network...")
 
     # Testing Neural Network
-    extractor()
-    flattener()
+    # extractor()
     neural_network()
 
     pass
