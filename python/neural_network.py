@@ -1,8 +1,7 @@
 import data as dt
-import matplotlib as plt
 import numpy as np
 import pandas as pd
-import tensorflow as tf
+from tensorflow import keras as tfk
 import os
 
 import concurrent.futures as ccf
@@ -10,7 +9,128 @@ import concurrent.futures as ccf
 # bpRNA: large-scale automated annotation and analysis of RNA secondary structure
 # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6009582/
 
+# Create Pandas DataFrame and save output to CSV
+def dataset_to_csv(filepath, dataset):
+    dataframe = pd.DataFrame(dataset)
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    dataframe.to_csv(filepath, index=False, header=False)
+    return dataframe
+
+# One Hot Encoder
+def one_hot_encoder(sequence,categories,scale=None,remove_last=True):
+    scale = (scale,len(categories))[scale==None]
+    mapping = dict(zip(categories, range(scale)))
+    results = [mapping[i] for i in sequence]
+    output = np.rot90(np.eye(scale)[results])
+    return (output,output[:-1])[remove_last]
+
+# Dot-Bracket Encoder
+def dot_bracket_encoder(sequence,categories=None):
+
+    # Four pairs of brackets
+    categories = ["(.)","[.]","{.}","<.>"]
+
+    # open-bracket is +1, close-braket is -1, dots is +0
+    values = [1.0, 0.0, -1.0]
+
+    # Bracket Mapping
+    round_map = dict(zip(categories[0], values))
+    square_map = dict(zip(categories[1], values))
+    curly_map = dict(zip(categories[2], values))
+    angle_map = dict(zip(categories[3], values))
+
+    # Populate the categories
+    R = []; S = []; C = []; A = []
+    for i in sequence:
+        R.append(round_map.get(i,0))
+        S.append(square_map.get(i,0))
+        C.append(curly_map.get(i,0))
+        A.append(angle_map.get(i,0))
+
+    # Stack the 4 categories
+    results = np.stack((R,S,C,A),axis=0)
+    return results
+
+# Read saved files
+def reader(filepath):
+    lines = []
+    with open(filepath, 'r') as file:
+        for line in file:
+            lines.append(line)
+    file.close()
+    return lines
+
+# Flatten the data
+def flatter():
+
+    def merge(lines,n):
+        index = 0
+        tmp_flat = []
+        flat_array = []
+        for line in lines:
+            if index == 0:
+                tmp_flat = line[:-1].split(",")
+            elif index % n != 0:
+                tmp_flat = [*tmp_flat, *line[:-1].split(",")] 
+            else:
+                flat_array.append(tmp_flat)
+                tmp_flat = line[:-1].split(",")
+            index += 1
+        return flat_array
+
+    nt_flat = []
+    lines = reader('csv/encoded/nt_encoded.csv')
+    nt_flat = merge(lines,3)
+    dataset_to_csv('csv/flat/nt_flat.csv',nt_flat)
+
+    db_flat = []
+    lines = reader('csv/encoded/db_encoded.csv')
+    db_flat = merge(lines,4)
+    dataset_to_csv('csv/flat/db_flat.csv',db_flat)
+
+    kt_flat = []
+    lines = reader('csv/encoded/kt_encoded.csv')
+    kt_flat = merge(lines,6)
+    dataset_to_csv('csv/flat/kt_flat.csv',kt_flat)
+    
+    lp_flat = []
+    lines = reader('csv/encoded/lp_encoded.csv')
+    lp_flat = merge(lines,1)
+    dataset_to_csv('csv/flat/lp_flat.csv',lp_flat)
+
 def neural_network():
+
+    # ANN for NT Data
+
+
+    # from sklearn.model_selection import train_test_split
+    # in_train, in_test, out_train, out_test = train_test_split(in, out, test_size=1/10, random_state=0)
+    # NOTE: 10-fold crossvalidation may be implemented 
+
+    ## ann stand for Artificial Neural Network
+    nt_ann = tfk.models.Sequential()
+
+    # Nucleotide input layer
+    nt_ann.add(tfk.layers.Dense(units=14*3, activation='relu'))
+
+    # 2 stack of hidden layers
+    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
+    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
+
+    # Output layer
+    nt_ann.add(tfk.layers.Dense(units=2, activation='sigmoid'))
+
+    # Generate the ANN
+    nt_ann.compile( optimizer = 'adam', 
+                    loss = 'binary_crossentropy', 
+                    metrics = ['accuracy'] )
+    
+    # Feed data to Neural Network
+    # NOTE: Lookup 'Mixed Data' Neural Network
+    # nt_ann.fit()
+
+
+def extractor():
     ## Feature Extractions and Encoding
 
     seq_amount = dt.HDV_LIG14.seq_amount
@@ -23,11 +143,8 @@ def neural_network():
     # Extract Features
     gen_index = 0
     while gen_index < seq_amount:
-        lines = []
-        sequence = 'st/SEQUENCE_' + str(gen_index) + '.st'
-        with open(sequence, 'r') as st_file:
-            for line in st_file:
-                lines.append(line)
+        sequence_file = 'st/SEQUENCE_' + str(gen_index) + '.st'
+        lines = reader(sequence_file)
 
         # Check for '#Warning:', while first char is '#', shift down reading index
         shift = 0
@@ -39,12 +156,6 @@ def neural_network():
         kt_str = lines[5 + shift][:-1]
         lp_str = lines[6 + shift][:-1]
 
-        # Convert to arrays
-        # nt_node = list(nt_str) # nucleotides sequences
-        # db_node = list(db_str) # dot-parens (dot-brackets) notation
-        # kt_node = list(kt_str) # knots
-        # lp_node = list(lp_str) # loops
-
         # Append to dataset arrays
         nt_dataset.append(nt_str)
         db_dataset.append(db_str)
@@ -52,13 +163,6 @@ def neural_network():
         lp_dataset.append(lp_str)
 
         gen_index += 1
-
-    # Create Pandas DataFrame and save output to CSV
-    def dataset_to_csv(filepath, dataset):
-        dataframe = pd.DataFrame(dataset)
-        os.makedirs(os.path.dirname(filepath), exist_ok=True)
-        dataframe.to_csv(filepath, index=False, header=False)
-        return dataframe
     
     # Export dataset to csv
     nt_dataframe = dataset_to_csv('csv/dataset/nt_dataset.csv',nt_dataset)
@@ -72,51 +176,11 @@ def neural_network():
     lig_fit = dt.HDV_LIG14.ligase_fitness
     lig_del = dt.HDV_LIG14.ligase_delta
 
-    ## NOTE:
-    # * The neural network for the HDV sequences will be implemented first.
-    # * The neural network for the LIG sequences will be implemented in the
-    #   future when all the data will be regenerated using the correct indexing.
-
     # Encoded Arrays
     nt_encoded = []
     db_encoded = []
     kt_encoded = []
     lp_encoded = []
-
-    # One Hot Encoder
-    def one_hot_encoder(sequence,categories,scale=None,remove_last=True):
-        scale = (scale,len(categories))[scale==None]
-        mapping = dict(zip(categories, range(scale)))
-        results = [mapping[i] for i in sequence]
-        output = np.rot90(np.eye(scale)[results])
-        return (output,output[:-1])[remove_last]
-
-    # Dot-Bracket Encoder
-    def dot_bracket_encoder(sequence,categories=None):
-
-        # Four pairs of brackets
-        categories = ["(.)","[.]","{.}","<.>"]
-
-        # open-bracket is +1, close-braket is -1, dots is +0
-        values = [1.0, 0.0, -1.0]
-
-        # Bracket Mapping
-        round_map = dict(zip(categories[0], values))
-        square_map = dict(zip(categories[1], values))
-        curly_map = dict(zip(categories[2], values))
-        angle_map = dict(zip(categories[3], values))
-
-        # Populate the categories
-        R = []; S = []; C = []; A = []
-        for i in sequence:
-            R.append(round_map.get(i,0))
-            S.append(square_map.get(i,0))
-            C.append(curly_map.get(i,0))
-            A.append(angle_map.get(i,0))
-   
-        # Stack the 4 categories
-        results = np.stack((R,S,C,A),axis=0)
-        return results
     
     # Catch thread exception, if any
     ExceptionHandler = []
@@ -141,7 +205,7 @@ def neural_network():
             lp_task = executor.submit(encoder_thread, 'csv/encoded/lp_encoded.csv', lp_encoded, one_hot_encoder, lp_dataset, "NK")   
     
     # Raise exception, if any
-    for e in ExceptionHandler: raise(e) 
+    for e in ExceptionHandler: raise(e)
 
     # Multi-Threading:
     # https://www.tutorialspoint.com/python/python_multithreading.htm
@@ -149,17 +213,16 @@ def neural_network():
     # NOTE:
     # * The dataset may have been wrongly generated due to an error in the instruction guide. Regeneration of the dataset will retake place using the previously written SPOT-RNA auto generator program, available in the "git" folder. An additional flag may be added to extract even more features. Extraction will take place on both the HDV-Lib14-RNA and LIG-Lib14-RNA sequences. Therefore, the size of the datasets will at least double.
     # * Nucleotide encoder may further be improved by using the corresponding IUPAC nt. This may be something to explore.
-
-    # TODO : Feed data to 'Mixed Data' Neural Network
-
-    pass
+    # * Further extract and scale the data may improve results, such as removing unchanging nodes/variables from the dataset.csv. Perhaps, a scaled/xx_datasets.csv.
 
 def test():
     print("Testing HDV-LIG14 Neural Network...")
 
     # Testing Neural Network
+    extractor()
+    flatter()
     neural_network()
 
     pass
 
-
+test()
