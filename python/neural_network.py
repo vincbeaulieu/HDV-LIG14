@@ -3,9 +3,11 @@ import data as dt
 import numpy as np
 import pandas as pd
 from tensorflow import keras as tfk
+import tensorflow as tf
 import os
-
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 import concurrent.futures as ccf
+
 
 # bpRNA: large-scale automated annotation and analysis of RNA secondary structure
 # https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6009582/
@@ -48,7 +50,7 @@ def one_hot_encoder(sequence,categories,scale=None,remove_last=True):
     scale = (scale,len(categories))[scale==None]
     mapping = dict(zip(categories, range(scale)))
     results = [mapping[i] for i in sequence]
-    output = np.rot90(np.eye(scale)[results])
+    output = np.rot90(np.eye(scale, dtype=int)[results])
     return (output,output[:-1])[remove_last]
 
 # Dot-Bracket Encoder
@@ -58,7 +60,7 @@ def dot_bracket_encoder(sequence,categories=None):
     categories = ["(.)","[.]","{.}","<.>"]
 
     # open-bracket is +1, close-braket is -1, dots is +0
-    values = [1.0, 0.0, -1.0]
+    values = [1, 0, -1]
 
     # Bracket Mapping
     round_map = dict(zip(categories[0], values))
@@ -117,8 +119,6 @@ def extractor():
     db_dataframe = dataset_to_csv('csv/dataset/db_dataset.csv',db_dataset)
     kt_dataframe = dataset_to_csv('csv/dataset/kt_dataset.csv',kt_dataset)
     lp_dataframe = dataset_to_csv('csv/dataset/lp_dataset.csv',lp_dataset)
-
-
 
     # Encoded Arrays
     nt_encoded = []
@@ -194,40 +194,59 @@ def neural_network():
     # TODO: fixing error:
     # ValueError: Failed to convert a NumPy array to a Tensor (Unsupported object type float).
 
+    nt_flat = np.asarray(nt_flat).astype(np.int_)
+    hdv_flat = np.asarray(hdv_flat).astype('float32')
+    
     # ANN for NT Data
     from sklearn.model_selection import train_test_split
-    in_train, in_test, out_train, out_test = train_test_split(nt_flat, hdv_flat, test_size=1/10, random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(nt_flat, hdv_flat, test_size=1/10, random_state=0)
     # NOTE: 10-fold crossvalidation may be implemented 
 
     ## ann stand for Artificial Neural Network
-    nt_ann = tfk.models.Sequential()
+    model = tfk.models.Sequential()
 
     # Nucleotide input layer
-    nt_ann.add(tfk.layers.Dense(units=42, activation='relu'))
+    model.add(tfk.layers.Dense(units=42, activation='relu'))
 
-    # 2 stack of hidden layers
-    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
-    nt_ann.add(tfk.layers.Dense(units=14, activation='relu'))
+    # Hidden layers
+    model.add(tfk.layers.Dense(units=14, activation='relu'))
+    model.add(tfk.layers.Dense(units=14, activation='relu'))
+    model.add(tfk.layers.Dense(units=14, activation='relu'))
+    model.add(tfk.layers.Dense(units=14, activation='relu'))
 
     # Output layer
-    nt_ann.add(tfk.layers.Dense(units=2, activation='sigmoid'))
+    model.add(tfk.layers.Dense(units=2, activation='sigmoid'))
 
     # Generate the ANN
-    nt_ann.compile( optimizer = 'adam', 
-                    loss = 'binary_crossentropy', 
-                    metrics = ['accuracy'] )
+    # model.compile( optimizer = 'sgd',loss = 'mse', metrics = [tfk.metrics.RootMeanSquaredError()] )
+    model.compile(optimizer = 'adam', loss = 'poisson', metrics = ['accuracy'])
 
     # Feed data to Neural Network
     # NOTE: Lookup 'Mixed Data' Neural Network
-    nt_ann.fit(in_train, out_train, batch_size = 32, epochs = 100)
+    model.fit(x_train, y_train, batch_size = 32, epochs = 10000)
 
-    prediction = nt_ann.predict(in_test)
-    print(np.concatenate((prediction.reshape(len(prediction),1), out_test.reshape(len(out_test),1)),1))
+    prediction = model.predict(x_test)
+
+    for i, p in enumerate(prediction):
+        for j, q in enumerate(p):
+            if q < 0.00005: prediction[i][j] = 0
+            else:
+                prediction[i][j] = f'{q:.4f}'
     
-    # Making the Confusion Matrix
-    from sklearn.metrics import confusion_matrix, accuracy_score
-    print(confusion_matrix(out_test, prediction))
-    accuracy_score(out_test, prediction)
+    dataset_to_csv('csv/prediction/prediction.csv',prediction)
+    dataset_to_csv('csv/prediction/y_test.csv',y_test)
+
+    # Save a machine learning model
+    import pickle as pk
+    filepath = 'pkl/nt_MachineLearning.pkl'
+    os.makedirs(os.path.dirname(filepath), exist_ok=True)
+    pk.dump(model, open(filepath,'wb'))
+
+    # Load a machine learning model
+    nt_ml = pk.load(open(filepath,'rb'))
+    print(nt_ml.predict(x_test))
+
+    
 
 def test():
     print("Testing HDV-LIG14 Neural Network...")
@@ -237,3 +256,5 @@ def test():
     neural_network()
 
     pass
+
+test()
