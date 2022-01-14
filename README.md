@@ -4,10 +4,10 @@ The HDV-LIG14 dataset encompasses 16384 folding sequences generated using the SP
 
 The HDV-LIG14 whole sequences as 14 specifics nucleotide that were modified and are illustrated following the IUPAC nucleotide code [2].
 
-##### HDV-LIG14 (whole sequence)  
+#### HDV-LIG14 (whole sequence)  
 GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC  
 
-##### HDV-LIG14 (14 modified nucleotide IUPAC and position)  
+#### HDV-LIG14 (14 modified nucleotide IUPAC and position)  
 | M  | G  | R  | K  | S  | K  | S  | Y  | Y  | Y  | R  | S  | M  | S  |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | 12 | 21 | 22 | 27 | 37 | 54 | 64 | 67 | 71 | 72 | 77 | 82 | 84 | 85 |
