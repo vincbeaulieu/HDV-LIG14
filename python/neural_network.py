@@ -18,7 +18,7 @@ def neural_network():
     lig_fit = dt.HDV_LIG14.ligase_fitness
     lig_del = dt.HDV_LIG14.ligase_delta
 
-    # Flatten the data
+    # Dimensionality Reduction
     nt_flat = []
     lines = toolbox.reader('csv/encoded/nt_encoded.csv')
     nt_flat = toolbox.merge(lines,3)
@@ -56,10 +56,10 @@ def neural_network():
 
     from sklearn.preprocessing import StandardScaler
     scaler = StandardScaler()
-    X_train = scaler.fit_transform(x_train)
-    X_test = scaler.transform(x_test)
-    Y_train = scaler.fit_transform(x_train)
-    Y_test = scaler.transform(x_test)
+    #x_train = scaler.fit_transform(x_train)
+    #x_test = scaler.transform(x_test)
+    #y_train = scaler.fit_transform(x_train)
+    #y_test = scaler.transform(x_test)
 
 
     ## ann stand for Artificial Neural Network
@@ -95,33 +95,42 @@ def neural_network():
     toolbox.dataset_to_csv('csv/prediction/prediction.csv',prediction)
     toolbox.dataset_to_csv('csv/prediction/y_test.csv',y_test)
 
-    # Save a machine learning model
-    import pickle as pk
-    filepath = 'pkl/nt_MachineLearning.pkl'
+    save(model,'pkl/nt_MachineLearning.pkl')
+    
+    model = load('pkl/nt_MachineLearning.pkl')
+    print(model.predict(x_test))
+
+
+
+import pickle as pk
+
+# Save a machine learning model
+def save(model,filepath):
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
     pk.dump(model, open(filepath,'wb'))
 
-    # Load a machine learning model
-    nt_ml = pk.load(open(filepath,'rb'))
-    print(nt_ml.predict(x_test))
+# Load a machine learning model
+def load(filepath):
+    model = pk.load(open(filepath,'rb'))
+    return model
 
 
 def plot():
-    estimated = toolbox.reader('csv/prediction/prediction.csv')
-    actual = toolbox.reader('csv/prediction/y_test.csv')
-
+    estimated_fitness = np.array(toolbox.csv_reader('csv/prediction/prediction.csv'))
+    actual_fitness = np.array(toolbox.csv_reader('csv/prediction/y_test.csv'))
+    
+    print(estimated_fitness[:,0])
+    
 
     # NOTE: reader does not utilise delimiter - TODO
-#   plt.plot(actual[:][1],estimated[:][1])
-#   plt.show()
+    plt.scatter(actual_fitness[:,0],estimated_fitness[:,0])
+    plt.show()
     pass
 
 def test():
     print("Testing HDV-LIG14 Neural Network...")
 
     # Testing Neural Network
-    # neural_network()
+    neural_network()
     plot()
     pass
-
-plot()

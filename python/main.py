@@ -1,8 +1,9 @@
 import toolbox
-import data as dt
-import fasta_gen as fg
+import data
+import fasta_gen
+import extractor
 import encoder as enc
-import neural_network as nn
+import neural_network
 
 
 def main():
@@ -12,10 +13,12 @@ def main():
 
 def test():
     # toolbox.test()
-    # dt.test()
-    # fg.test()
-    # enc.test()
-    nn.test()
+    # data.test()
+    
+    #fasta_gen.test()
+    extractor.test()
+    enc.test()
+    neural_network.test()
     
     pass
 
