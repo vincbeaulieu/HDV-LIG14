@@ -122,7 +122,7 @@ def plot():
     print(estimated_fitness[:,0])
 
     # NOTE: reader does not utilise delimiter - TODO
-    plt.scatter(actual_fitness[:,0],estimated_fitness[:,0])
+    plt.scatter(estimated_fitness[:,0],actual_fitness[:,0])
     plt.xticks([])
     plt.yticks([])
     plt.show()
