@@ -216,7 +216,7 @@ def neural_network():
     nt_ann.compile( optimizer = 'adam', 
                     loss = 'binary_crossentropy', 
                     metrics = ['accuracy'] )
-    
+
     # Feed data to Neural Network
     # NOTE: Lookup 'Mixed Data' Neural Network
     nt_ann.fit(in_train, out_train, batch_size = 32, epochs = 100)
