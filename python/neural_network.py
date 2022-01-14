@@ -7,9 +7,9 @@ import numpy as np
 import pandas as pd
 import os
 
-import tensorflow as tf
+# import tensorflow as tf
 from tensorflow import keras as tfk
-print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
+# print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
 def neural_network():
     # Import desired outputs
@@ -120,17 +120,19 @@ def plot():
     actual_fitness = np.array(toolbox.csv_reader('csv/prediction/y_test.csv'))
     
     print(estimated_fitness[:,0])
-    
 
     # NOTE: reader does not utilise delimiter - TODO
     plt.scatter(actual_fitness[:,0],estimated_fitness[:,0])
+    plt.xticks([])
+    plt.yticks([])
     plt.show()
+    
     pass
 
 def test():
     print("Testing HDV-LIG14 Neural Network...")
 
     # Testing Neural Network
-    neural_network()
+    # neural_network()
     plot()
     pass

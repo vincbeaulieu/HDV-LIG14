@@ -16,8 +16,8 @@ def test():
     # data.test()
     
     #fasta_gen.test()
-    extractor.test()
-    enc.test()
+    #extractor.test()
+    #enc.test()
     neural_network.test()
     
     pass
