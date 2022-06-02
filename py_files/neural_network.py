@@ -1,4 +1,4 @@
-import data as dt
+from data_properties import HDV_LIG14
 import toolbox
 import encoder as enc
 
@@ -13,10 +13,10 @@ from tensorflow import keras as tfk
 
 def neural_network():
     # Import desired outputs
-    hdv_fit = dt.HDV_LIG14.hdv_fitness
-    hdv_del = dt.HDV_LIG14.hdv_delta
-    lig_fit = dt.HDV_LIG14.ligase_fitness
-    lig_del = dt.HDV_LIG14.ligase_delta
+    hdv_fit = HDV_LIG14.hdv_fitness
+    hdv_del = HDV_LIG14.hdv_delta
+    lig_fit = HDV_LIG14.ligase_fitness
+    lig_del = HDV_LIG14.ligase_delta
 
     # Dimensionality Reduction
     nt_flat = []
@@ -134,10 +134,10 @@ def plot():
 
 def evaluate():
     # Import desired outputs
-    hdv_fit = dt.HDV_LIG14.hdv_fitness
-    hdv_del = dt.HDV_LIG14.hdv_delta
-    lig_fit = dt.HDV_LIG14.ligase_fitness
-    lig_del = dt.HDV_LIG14.ligase_delta
+    hdv_fit = HDV_LIG14.hdv_fitness
+    hdv_del = HDV_LIG14.hdv_delta
+    lig_fit = HDV_LIG14.ligase_fitness
+    lig_del = HDV_LIG14.ligase_delta
 
     nt_flat = []
     lines = toolbox.reader('csv/encoded/nt_encoded.csv')
@@ -174,5 +174,3 @@ def test():
     evaluate()
     plot()
     pass
-
-test()

@@ -1,10 +1,9 @@
-
-import data as dt
+from data_properties import HDV_LIG14
 import toolbox
 
 # Data Extraction
 def extractor():
-    seq_amount = dt.HDV_LIG14.seq_amount
+    seq_amount = HDV_LIG14.seq_amount
 
     nt_dataset = []
     db_dataset = []

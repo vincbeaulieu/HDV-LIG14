@@ -1,26 +1,25 @@
-import data as dt
-import pandas as pd
+from data_properties import HDV_LIG14
 import os
 
 def fasta_gen(batch_size=None):
 
-    seq_amount = dt.HDV_LIG14.seq_amount
-    genotypes = dt.HDV_LIG14.genotypes
-    HDV_LIG14 = dt.HDV_LIG14.hdv_rna_sequence
-    nt_position = dt.HDV_LIG14.hdv_nt_position
+    seq_amount = HDV_LIG14.seq_amount
+    genotypes = HDV_LIG14.genotypes
+    hdv_seq = HDV_LIG14.hdv_rna_sequence
+    hdv_nt_pos = HDV_LIG14.hdv_nt_position
 
     batch = 0
     gen_index = 0
     while gen_index < seq_amount: # 16384
-        sequence = list(HDV_LIG14)
+        sequence = list(hdv_seq)
 
         char_index = 0
         # print(genotypes[gen_index][char_index])
 
         i = 1
-        while i < len(nt_position) - 1:
-            _from = nt_position[i]
-            _to = nt_position[i + 1]
+        while i < len(hdv_nt_pos) - 1:
+            _from = hdv_nt_pos[i]
+            _to = hdv_nt_pos[i + 1]
             _incr = _to - _from
 
             # print(i, end=' ')

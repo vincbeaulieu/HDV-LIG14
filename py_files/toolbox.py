@@ -16,7 +16,7 @@ def reader(filepath):
     with open(filepath, 'r') as file:
         for line in file:
             lines.append(line[:-1])
-    file.close()
+
     return lines
 
 # Read saved files and return 2D list
@@ -26,7 +26,7 @@ def csv_reader(filepath,delimiter=','):
         rows = csv.reader(file, delimiter=delimiter)
         for row in rows:
             table.append(row)
-    file.close()
+            
     return table
 
 # Merge groups of n rows together. 

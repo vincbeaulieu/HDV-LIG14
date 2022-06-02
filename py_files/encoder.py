@@ -1,4 +1,4 @@
-import data as dt
+from data_properties import HDV_LIG14
 import toolbox
 import numpy as np
 import concurrent.futures as ccf
@@ -73,7 +73,7 @@ def encode_rna():
 
     # Encode Data (Multi-threaded)
     with ccf.ThreadPoolExecutor() as executor:
-        nt_task = executor.submit(encoder_thread, 'csv/encoded/nt_encoded.csv', nt_encoded, one_hot_encoder, dt.HDV_LIG14.genotypes, "ATCG")
+        nt_task = executor.submit(encoder_thread, 'csv/encoded/nt_encoded.csv', nt_encoded, one_hot_encoder, HDV_LIG14.genotypes, "ATCG")
         db_task = executor.submit(encoder_thread, 'csv/encoded/db_encoded.csv', db_encoded, dot_bracket_encoder, db_dataset)
         kt_task = executor.submit(encoder_thread, 'csv/encoded/kt_encoded.csv', kt_encoded, one_hot_encoder, kt_dataset, "BEHIMSX")
         lp_task = executor.submit(encoder_thread, 'csv/encoded/lp_encoded.csv', lp_encoded, one_hot_encoder, lp_dataset, "NK")   
