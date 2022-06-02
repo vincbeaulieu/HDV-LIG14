@@ -62,3 +62,8 @@ do
     fi
     
 done
+
+# Will only push at the end.
+git push
+
+
