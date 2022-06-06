@@ -22,7 +22,7 @@ $ sh batch.sh 100 0
   
 ## Bugs:  
 - Ending_index is set to 16383. The program does not take ending index as argument yet. Therefore, the value must be changed in the code itself (batch.sh - line 19) for custom ending index.  
-- Please raise an issue to report any other bugs or desired features  
+- Please raise an issue to report any bugs, or to suggest desired features. You can also fork this repo.  
   
 ## Author:  
 Vincent Beaulieu  
