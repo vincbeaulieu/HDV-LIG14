@@ -1,5 +1,5 @@
 import toolbox
-import data_properties as dt
+import Lib14.data_properties as dt
 import fasta_gen
 import extractor
 import encoder as enc

@@ -1,4 +1,4 @@
-from data_properties import HDV_LIG14
+from Lib14.data_properties import HDV_LIG14
 import os
 
 def fasta_gen(batch_size=None):

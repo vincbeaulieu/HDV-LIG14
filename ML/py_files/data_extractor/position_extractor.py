@@ -5,7 +5,7 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 
 # TODO: create setup.py and venv to simplify import
 try:
-    from data_properties import HDV_LIG14
+    from Lib14.data_properties import HDV_LIG14
 except:
     try:
         print("\033[93m" + "**WARNING** Relative Import Failed - Trying Absolute Import")
@@ -15,13 +15,14 @@ except:
         parentdir = os.path.dirname(currentdir)
         sys.path.insert(0, parentdir)
 
-        from data_properties import HDV_LIG14
+        from Lib14.data_properties import HDV_LIG14
         print("\033[32m" + "**MESSAGE** Import Process Completed")
     except:
         print("\033[91m" + "**ERROR** Import Process Failed")
 finally:
     print("\033[0m")
 
+import numpy as np
 
 # Position Extractor
 def position_extractor():
@@ -71,8 +72,18 @@ def position_extractor():
 
     # See 'nt_position.txt'
 
+    return np.array(hdv_nt_pos), np.array(lig_nt_pos)
+
+
 if __name__ == '__main__':
     # test()
-    position_extractor()
+    hdv_nt_pos, lig_nt_pos = position_extractor()
+
+    # index = 0, letters = 1, positions = 2
+    col = 2
+
+    print(hdv_nt_pos[:,col])
+    print()
+    print(lig_nt_pos[:,col])
     pass
 
