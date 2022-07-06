@@ -1,6 +1,3 @@
  Update: Repo has been reorganized but the code has not been updated according to the new structure yet.
 
 Task: Update Code
-
-add setup.py
-https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
