@@ -1,26 +1,7 @@
-import os
-import inspect
-
+import os, inspect
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
-# TODO: create setup.py and venv to simplify import
-try:
-    from Lib14.data_properties import HDV_LIG14
-except:
-    try:
-        print("\033[93m" + "**WARNING** Relative Import Failed - Trying Absolute Import")
-        
-        import sys
-
-        parentdir = os.path.dirname(currentdir)
-        sys.path.insert(0, parentdir)
-
-        from Lib14.data_properties import HDV_LIG14
-        print("\033[32m" + "**MESSAGE** Import Process Completed")
-    except:
-        print("\033[91m" + "**ERROR** Import Process Failed")
-finally:
-    print("\033[0m")
+from ML.py_files.Lib14.data_properties import HDV_LIG14
 
 import numpy as np
 
@@ -76,14 +57,28 @@ def position_extractor():
 
 
 if __name__ == '__main__':
-    # test()
+
     hdv_nt_pos, lig_nt_pos = position_extractor()
 
-    # index = 0, letters = 1, positions = 2
-    col = 2
+    # column indices:
+    index = 0; letters = 1; positions = 2
 
-    print(hdv_nt_pos[:,col])
-    print()
-    print(lig_nt_pos[:,col])
+    def print_data(start='',delimiter=' ',end=''):
+        print(start + delimiter.join(hdv_nt_pos[:,letters]) + end)
+        print(start + delimiter.join(hdv_nt_pos[:,positions]) + end)
+        print()
+        print(start + delimiter.join(lig_nt_pos[:,letters]) + end)
+        print(start + delimiter.join(lig_nt_pos[:,positions]) + end)
+        print()
+
+    # int array print
+    print_data(start='[',delimiter=', ',end=']')
+
+    # markdown print
+    print_data(delimiter='\t')
+
+    # markdown table generator:
+    # ref: https://www.tablesgenerator.com/markdown_tables
+
     pass
 

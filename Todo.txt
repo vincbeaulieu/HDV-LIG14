@@ -1,6 +1,17 @@
- Update: Repo has been reorganized but the code has not been updated according to the new structure yet.
+Update: The repo is being reorganized and the code is currently being updated according to the new structure.
 
-Task: Update Code
+Completed:
+- fasta_gen.py
+- position_extractor.py
+- data_properties.py
 
-add setup.py
-https://stackoverflow.com/questions/714063/importing-modules-from-parent-folder
+* Above files may be renamed or moved in future commits.
+
+Task:
+- Update Code
+- Generate data of LIG and HDV with SPOT-RNA
+- Restructure the ML folder to accommodate the new HDV dataset, and the LIG dataset.
+
+TBD:
+- A3 data may be archived in future commits, to be decided.
+- The file data_property.py may be moved to a different location.
