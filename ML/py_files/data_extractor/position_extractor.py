@@ -69,12 +69,16 @@ if __name__ == '__main__':
         print()
         print(start + delimiter.join(lig_nt_pos[:,letters]) + end)
         print(start + delimiter.join(lig_nt_pos[:,positions]) + end)
+        print()
 
     # int array print
-    # print_data(start='[',delimiter=', ',end=']')
+    print_data(start='[',delimiter=', ',end=']')
 
     # markdown print
     print_data(delimiter='\t')
+
+    # markdown table generator:
+    # ref: https://www.tablesgenerator.com/markdown_tables
 
     pass
 
