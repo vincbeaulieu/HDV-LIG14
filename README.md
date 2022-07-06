@@ -4,13 +4,13 @@ The Lib14 dataset encompasses 16384 folding sequences generated using the SPOT-R
 
 Both Lib14 sequences have each 14 specific nucleotides that were experimentally modified. Both whole sequence follows the IUPAC nucleotide code to illustrate non-singleton nucleotide modifications [2].
 
-### HDV-Lib14 (whole sequence)   
+#### HDV-Lib14 (whole sequence)   
 GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC  
   
-### LIG-Lib14 (whole sequence)  
+#### LIG-Lib14 (whole sequence)  
 GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC  
   
-### 14 modified IUPAC nucleotides with respective position for the HDV and LIG whole sequences  
+#### 14 modified IUPAC nucleotides with respective position for the HDV and LIG whole sequences  
 | nt modifications | M  | R  | K  | S  | S  | K  | S  | Y  | Y  | Y  | R  | S  | M  | S  |
 |------------------|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
 | HDV nt positions | 11 | 21 | 26 | 36 | 50 | 53 | 63 | 66 | 70 | 71 | 76 | 81 | 83 | 84 |
