@@ -2,17 +2,21 @@
 
 The Lib14 dataset encompasses 16384 folding sequences generated using the SPOT-RNA algorithm [1]. The goal of this data is to allow the development of machine learning algorithm to better determine the efficiency in self-cleavage and ligation of a given RNA sequence for the HDV-Lib14 and LIG-Lib14, respectively.
 
-Both Lib14 sequences have each 14 specific nucleotides that were experimentally modified. Both generic sequences follow the IUPAC nucleotide code to illustrate non-singleton nucleotide modifications [2].
+Both Lib14 sequences have each 14 specific nucleotides that were experimentally modified. Both whole sequence follows the IUPAC nucleotide code to illustrate non-singleton nucleotide modifications [2].
 
-#### HDV-LIG14 (whole sequence)  
+#### HDV-Lib14 (whole sequence)   
 GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC  
-
-#### HDV-LIG14 (14 modified nucleotide IUPAC and position)  
-| M  | G  | R  | K  | S  | K  | S  | Y  | Y  | Y  | R  | S  | M  | S  |
-|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
-| 12 | 21 | 22 | 27 | 37 | 54 | 64 | 67 | 71 | 72 | 77 | 82 | 84 | 85 |  
   
-## Machine Learning Outputs V1
+#### LIG-Lib14 (whole sequence)  
+GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC  
+  
+##### 14 modified IUPAC nucleotides with respective position for the HDV and LIG whole sequences  
+| nt modifications | M  | R  | K  | S  | S  | K  | S  | Y  | Y  | Y  | R  | S  | M  | S  |
+|------------------|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
+| HDV nt positions | 11 | 21 | 26 | 36 | 50 | 53 | 63 | 66 | 70 | 71 | 76 | 81 | 83 | 84 |
+| LIG nt positions | 3  | 13 | 18 | 28 | 42 | 45 | 55 | 58 | 62 | 63 | 68 | 73 | 75 | 76 |
+  
+## Machine Learning Outputs: 
 
 ![](ML/media/nt_prediction.png)  
 

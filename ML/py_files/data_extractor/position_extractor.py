@@ -57,14 +57,24 @@ def position_extractor():
 
 
 if __name__ == '__main__':
-    # test()
+
     hdv_nt_pos, lig_nt_pos = position_extractor()
 
-    # index = 0, letters = 1, positions = 2
-    col = 2
+    # column indices:
+    index = 0; letters = 1; positions = 2
 
-    print('[' + ', '.join(hdv_nt_pos[:,col]) + ']')
-    print()
-    print('[' + ', '.join(lig_nt_pos[:,col]) + ']')
+    def print_data(start='',delimiter=' ',end=''):
+        print(start + delimiter.join(hdv_nt_pos[:,letters]) + end)
+        print(start + delimiter.join(hdv_nt_pos[:,positions]) + end)
+        print()
+        print(start + delimiter.join(lig_nt_pos[:,letters]) + end)
+        print(start + delimiter.join(lig_nt_pos[:,positions]) + end)
+
+    # int array print
+    # print_data(start='[',delimiter=', ',end=']')
+
+    # markdown print
+    print_data(delimiter='\t')
+
     pass
 
