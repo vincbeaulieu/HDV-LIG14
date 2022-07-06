@@ -1,5 +1,8 @@
+import os, inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
-from Datasets
+from ML.py_files.Lib14.data_properties import HDV_LIG14
+
 import numpy as np
 
 # Position Extractor
@@ -60,8 +63,8 @@ if __name__ == '__main__':
     # index = 0, letters = 1, positions = 2
     col = 2
 
-    print(hdv_nt_pos[:,col])
+    print('[' + ', '.join(hdv_nt_pos[:,col]) + ']')
     print()
-    print(lig_nt_pos[:,col])
+    print('[' + ', '.join(lig_nt_pos[:,col]) + ']')
     pass
 

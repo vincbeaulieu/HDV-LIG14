@@ -1,14 +1,13 @@
 
-from http.client import NON_AUTHORITATIVE_INFORMATION
+
 import os
 import inspect
-
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-print(currentdir)
+
 import sys
 parentdir = os.path.dirname(currentdir)
 rootdir = os.path.dirname(parentdir)
-sys.path.insert(0, parentdir)
+# sys.path.insert(0, parentdir)
 
 ## TODO: The Above import is temporary, but used while the .venv and setup.py are implemented.
 ########
@@ -62,22 +61,23 @@ class HDV_LIG14():
         # nt stand for nucleotide
         # Old Data:
         # return [0, 11, 12, 20, 22, 26, 27, 36, 37, 53, 54, 63,
-        #        64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
+        # 64, 66, 67, 70, 72, 76, 77, 81, 82, 83, 85, 129]
+        # [from_included:to_excluded]
         #
         # Data obtained from position_extractor.py with hdv_nt_pos[:,2]
-        return ['11' '21' '26' '36' '50' '53' '63' '66' '70' '71' '76' '81' '83' '84']
+        return [11, 21, 26, 36, 50, 53, 63, 66, 70, 71, 76, 81, 83, 84]
     
     @classproperty
     def lig_nt_position(self):
         # nt stand for nucleotide
         # Data obtained from position_extractor.py with lig_nt_pos[:,2]
-        return ['3' '13' '18' '28' '42' '45' '55' '58' '62' '63' '68' '73' '75' '76']
+        return [3, 13, 18, 28, 42, 45, 55, 58, 62, 63, 68, 73, 75, 76]
 
     #--- Dataset getters ---#
 
     @classproperty
     def sequences(self):
-        # return the sequence index
+        # return the sequence number
         return self.dataset[:, 0]
     
     @classproperty
