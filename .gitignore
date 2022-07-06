@@ -1,3 +1,4 @@
 .*
+!.archive
 __pycache__
 HDV_LIG14.egg-info
