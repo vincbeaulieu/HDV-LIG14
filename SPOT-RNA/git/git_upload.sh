@@ -6,7 +6,6 @@ echo "Uploading SEQUENCE_${start}_To_${end}"
 git commit -m "SEQUENCE_${start}_To_${end}"
 
 # Command moved at the end of batch.sh
-# May improve performances
 # git push
 
 
