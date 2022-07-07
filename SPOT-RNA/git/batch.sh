@@ -59,7 +59,7 @@ do
     then
         echo "Commit is Ready..."
         sh git_upload.sh $start $name
-    fi 
+    fi
     
 done
 
