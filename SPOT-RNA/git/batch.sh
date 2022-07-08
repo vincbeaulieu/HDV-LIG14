@@ -1,10 +1,11 @@
 
 # COMMAND INFO:
-# sh batch_test.sh [batch_size] [stating_index] [dataset_directory]
+# sh batch.sh [batch_size] [stating_index] [dataset_directory] [ending_index] [commit_size]
 
-# Ensure the terminal working directory is "HDV-LIG14".
-
-# For SPOT-RNA to work, please activate the virtual environment:
+# Prior to executing the command:
+# - Ensure that the terminal working directory is "HDV-LIG14".
+# - Copy the fasta folders "dataset_directory/fasta/single" and "dataset_directory/fasta/batch" to SPOT-RNA/sample_inputs
+# - Activate the python virtual environment for SPOT-RNA algorithm
 # eg: conda activate venv
 
 dir=$(pwd)
@@ -18,11 +19,16 @@ source ${dir}/SPOT-RNA/git/git_add.sh
 batch_size=$1 && [ -z "$1" ] && batch_size=1
 starting_index=$2 && [ -z "$2" ] && starting_index=0
 dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
+ending_index=$4 && [ -z "$4" ] && ending_index=16383 # 16383
+commit_size=$5 && [ -z "$5" ] && commit_size=50 # ~= 75 MB : Max push size: 100 MB
 
 batch_count=$starting_index
-ending_index=10 # 16383
-commit_size=2 # ~75 : Max commit size: 100 MB
-commit_counter=0 # count the number of 'commits' to be squashed
+# commit_counter=0 # count the number of 'commits' to be squashed
+
+# create branch if it does not exist, and checkout to it.
+branch_name="DatasetGenerator"
+git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
+git push -u origin ${branch_name} # Publish branch
 
 for name in $( eval echo {$starting_index..$ending_index} )
 do
@@ -33,7 +39,8 @@ do
         echo "${BOLD}Generating batch #${batch_count}${NC}"
         
         cd SPOT-RNA >/dev/null
-        # python3 SPOT-RNA.py  --inputs sample_inputs/BATCH_SEQUENCE_${batch_count}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
+        input_dir = "sample_inputs/batch/size_${batch_size}/BATCH_SEQUENCE_${batch_count}.fasta"
+        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
         sleep 2
         cd - >/dev/null
         
@@ -45,13 +52,14 @@ do
     [ "$retval" -eq 1 ] && echo "${BOLD}${RED}SEQUENCE_${name} Failed to Completely Generate${NC}" # oneline if ... then ...
     IFS=""; printf "%s\n" ${retlog[@]} # IFS set the delimiter for printf
 
-    # Will regenerate missing data using the individual sequence and retry until SPOT-RNA successfully create the files
+    # Will regenerate missing data using the individual fasta sequence and retry until SPOT-RNA successfully create the files
     until [ $retval -eq 0 ]
     do
         echo "${BOLD}${YELLOW}Trying To Resolve Missing Data${NC}"
         
         cd SPOT-RNA >/dev/null
-        # python3 SPOT-RNA.py  --inputs sample_inputs/SEQUENCE_${name}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
+        input_dir = "sample_inputs/single/SEQUENCE_${name}.fasta"
+        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --gpu 0 --cpu 16
         sleep 2
         cd - >/dev/null
         
@@ -65,12 +73,6 @@ do
     relocate_copy "${dir}/SPOT-RNA/outputs/SEQUENCE_${name}" "$dataset_directory"
     sleep 1
     
-    hello
-    world
-    this
-    is
-    commit #5
-    
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
     echo "${GREEN}${BOLD}SEQUENCE_${name} Added!${NC}"
@@ -83,27 +85,20 @@ do
     then
         echo "Commit Ready for SEQUENCE_${start}_to_${end}"
         git commit -m "SEQUENCE_${start}_To_${end}"
-        (( commit_counter++ ))
+        git push
+        # (( commit_counter++ ))
     fi
 done
 
+# Squash all change and push with lease for manual revision
 git checkout main
-git merge --squash DatasetGenerator
+git merge --squash ${branch_name}
 git commit --no-edit
-git -f push
-
-# Will only push at the end.
-# may need to use ${commit_counter}
-# lookup: git squash --> ref: https://stackoverflow.com/questions/5189560/how-to-squash-my-last-x-commits-together
-# git push
+git push --force-with-lease
 
 # More Git command:
 # ref: https://www.bitdegree.org/learn/git-commit-command
 
-
 # TODO:
-# - Implement git squash
 # - Update and Test SPOT-RNA.py
-# - copy or move '.fasta' files to SPOT-RNA/sample_inputs
 # - Generate HDV and LIG data
-# - remove or move-back '.fasta' files to Datasets/XXX/fasta
