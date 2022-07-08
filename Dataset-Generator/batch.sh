@@ -44,7 +44,7 @@ do
         echo "${BOLD}Generating batch #${batch_count}${NC}"
         
         cd SPOT-RNA >/dev/null
-        input_dir = "sample_inputs/batch/size_${batch_size}/BATCH_SEQUENCE_${batch_count}.fasta"
+        input_dir="sample_inputs/batch/size_${batch_size}/BATCH_SEQUENCE_${batch_count}.fasta"
         python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
         sleep 2
         cd - >/dev/null
@@ -63,7 +63,7 @@ do
         echo "${BOLD}${YELLOW}Trying To Resolve Missing Data${NC}"
         
         cd SPOT-RNA >/dev/null
-        input_dir = "sample_inputs/single/SEQUENCE_${name}.fasta"
+        input_dir="sample_inputs/single/SEQUENCE_${name}.fasta"
         python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --gpu 0 --cpu 16
         sleep 2
         cd - >/dev/null

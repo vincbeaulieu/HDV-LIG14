@@ -1,5 +1,4 @@
-
-source ${dir}/SPOT-RNA/git/color.sh
+source ${dir}/${basedir}/color.sh
 
 git_add() {
     local dataset_dir=$1
