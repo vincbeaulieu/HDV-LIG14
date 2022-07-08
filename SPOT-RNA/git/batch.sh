@@ -21,8 +21,11 @@ dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
 
 batch_count=$starting_index
 ending_index=10 # 16383
-commit_size=2 # ~75 : Max commit size: 100 MB
+commit_size=2 # ~75 : Max push size: 100 MB
 commit_counter=0 # count the number of 'commits' to be squashed
+
+branch_name="DatasetGenerator"
+git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
 
 for name in $( eval echo {$starting_index..$ending_index} )
 do
@@ -83,14 +86,15 @@ do
     then
         echo "Commit Ready for SEQUENCE_${start}_to_${end}"
         git commit -m "SEQUENCE_${start}_To_${end}"
+        git push
         (( commit_counter++ ))
     fi
 done
 
 git checkout main
-git merge --squash DatasetGenerator
+git merge --squash ${branch_name}
 git commit --no-edit
-git -f push
+git push --force-with-lease
 
 # Will only push at the end.
 # may need to use ${commit_counter}
