@@ -87,6 +87,11 @@ do
     fi
 done
 
+git checkout main
+git merge --squash DatasetGenerator
+git commit --no-edit
+git -f push
+
 # Will only push at the end.
 # may need to use ${commit_counter}
 # lookup: git squash --> ref: https://stackoverflow.com/questions/5189560/how-to-squash-my-last-x-commits-together
