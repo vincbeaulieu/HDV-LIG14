@@ -13,10 +13,12 @@
 
 dir=$(pwd)
 
-source ${dir}/SPOT-RNA/git/color.sh
-source ${dir}/SPOT-RNA/git/validate_results.sh
-source ${dir}/SPOT-RNA/git/relocate.sh
-source ${dir}/SPOT-RNA/git/git_add.sh
+basedir="Dataset-Generator"
+
+source ${dir}/${basedir}/color.sh
+source ${dir}/${basedir}/validate_results.sh
+source ${dir}/${basedir}/relocate.sh
+source ${dir}/${basedir}/git_add.sh
 
 # Assign default values when arguments are not provided
 batch_size=$1 && [ -z "$1" ] && batch_size=1
