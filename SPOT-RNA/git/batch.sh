@@ -1,8 +1,11 @@
 
-# Move all four ".sh" script in their parent directory "HDV-LIG14" before running the program. Then, ensure the terminal working directory is "HDV-LIG14".
+# COMMAND INFO:
+# sh batch_test.sh [batch_size] [stating_index] [dataset_directory]
 
-# Please run:
-# conda activate venv
+# Ensure the terminal working directory is "HDV-LIG14".
+
+# For SPOT-RNA to work, please activate the virtual environment:
+# eg: conda activate venv
 
 dir=$(pwd)
 
@@ -10,9 +13,6 @@ source ${dir}/SPOT-RNA/git/color.sh
 source ${dir}/SPOT-RNA/git/validate_results.sh
 source ${dir}/SPOT-RNA/git/relocate.sh
 source ${dir}/SPOT-RNA/git/git_add.sh
-
-# COMMAND INFO:
-# sh batch_test.sh [batch_size] [stating_index] [dataset_directory]
 
 # Assign default values when arguments are not provided
 batch_size=$1 && [ -z "$1" ] && batch_size=1
