@@ -90,3 +90,9 @@ done
 # ref: https://www.bitdegree.org/learn/git-commit-command
 
 
+# TODO:
+# - Implement git squash
+# - Update and Test SPOT-RNA.py
+# - copy or move '.fasta' files to SPOT-RNA/sample_inputs
+# - Generate HDV and LIG data
+# - remove or move-back '.fasta' files to Datasets/XXX/fasta
