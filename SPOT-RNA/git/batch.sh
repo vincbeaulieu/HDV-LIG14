@@ -9,14 +9,15 @@ dir=$(pwd)
 source ${dir}/SPOT-RNA/git/color.sh
 source ${dir}/SPOT-RNA/git/validate_results.sh
 source ${dir}/SPOT-RNA/git/relocate.sh
+source ${dir}/SPOT-RNA/git/git_add.sh
 
 # COMMAND INFO:
-# sh batch_test.sh [batch_size] [stating_index] [destination_path]
+# sh batch_test.sh [batch_size] [stating_index] [dataset_directory]
 
 # Assign default values when arguments are not provided
 batch_size=$1 && [ -z "$1" ] && batch_size=1
 starting_index=$2 && [ -z "$2" ] && starting_index=0
-destination_path=$3 && [ -z "$3" ] && destination_path="Datasets/tmp"
+dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
 
 batch_count=$starting_index
 ending_index=16383 # 16383
@@ -58,13 +59,13 @@ do
         printf "${RED}%s\n${NC}" ${retlog[@]}
     done
     
-    # Relocate Data to $destination_path
-    echo "${GREEN}${MVUP}Relocating SEQUENCE_${name} to $destination_path${NC}"
-    relocate_copy ${name} ${dir}/SPOT-RNA/outputs $destination_path
+    # Relocate Data to $dataset_directory
+    echo "${GREEN}${MVUP}Relocating SEQUENCE_${name} to $dataset_directory${NC}"
+    relocate_copy "${dir}/SPOT-RNA/outputs/SEQUENCE_${name}" "$dataset_directory"
     sleep 1
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
-    # sh git_add.sh ${name}
+    git_add "${dataset_directory}" "SEQUENCE_${name}"
     echo "${GREEN}${BOLD}${MVUP}${DEL}SEQUENCE_${name} Added!${NC}"
     
     commit_ready=$(($name % $commit_size))
