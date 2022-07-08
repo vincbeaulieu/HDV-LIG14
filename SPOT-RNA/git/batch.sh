@@ -67,7 +67,7 @@ do
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
-    echo "${GREEN}${BOLD}${DEL}SEQUENCE_${name} Added!${NC}"
+    echo "${GREEN}${BOLD}SEQUENCE_${name} Added!${NC}"
     
     commit_ready=$(($name % $commit_size))
     start=$(($name - $commit_ready))

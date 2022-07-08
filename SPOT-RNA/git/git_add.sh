@@ -17,8 +17,6 @@ git_add() {
     ${dataset_dir}/radiate/${seq_name}_radiate.png \
     ${dataset_dir}/fasta/${seq_name}.fasta
     
-    echo $?
-    
     printf "${NC}"
 
     # Exception is raise if any of these files are missing.
