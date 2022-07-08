@@ -1,7 +1,11 @@
 
+source ${dir}/SPOT-RNA/git/color.sh
+
 git_add() {
     local dataset_dir=$1
     local seq_name=$2
+
+    printf "${NC}${RED}"
 
     git add \
     ${dataset_dir}/st/${seq_name}.st \
@@ -12,6 +16,10 @@ git_add() {
     ${dataset_dir}/line/${seq_name}_line.png \
     ${dataset_dir}/radiate/${seq_name}_radiate.png \
     ${dataset_dir}/fasta/${seq_name}.fasta
+    
+    echo $?
+    
+    printf "${NC}"
 
-    # Exception should be raise if any of these files are missing.
+    # Exception is raise if any of these files are missing.
 }

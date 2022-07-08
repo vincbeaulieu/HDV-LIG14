@@ -22,6 +22,7 @@ dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
 batch_count=$starting_index
 ending_index=10 # 16383
 commit_size=2 # ~75 : Max commit size: 100 MB
+commit_counter=0 # count the number of 'commits' to be squashed
 
 for name in $( eval echo {$starting_index..$ending_index} )
 do
@@ -66,19 +67,22 @@ do
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
-    echo "${GREEN}${BOLD}${MVUP}${DEL}SEQUENCE_${name} Added!${NC}"
+    echo "${GREEN}${BOLD}${DEL}SEQUENCE_${name} Added!${NC}"
     
     commit_ready=$(($name % $commit_size))
     start=$(($name - $commit_ready))
+    end=$name
     
     if (($commit_ready == commit_size-1)) || (($name == $ending_index))
     then
-        echo "Commit is ready -> commit SEQUENCE_${start}_to_${end}"
+        echo "Commit Ready for SEQUENCE_${start}_to_${end}"
         git commit -m "SEQUENCE_${start}_To_${end}"
+        (( commit_counter++ ))
     fi
 done
 
 # Will only push at the end.
+# may need to use ${commit_counter}
 # lookup: git squash --> ref: https://stackoverflow.com/questions/5189560/how-to-squash-my-last-x-commits-together
 # git push
 
