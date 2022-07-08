@@ -69,6 +69,7 @@ do
     world
     this
     is
+    commit #5
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
