@@ -20,8 +20,8 @@ starting_index=$2 && [ -z "$2" ] && starting_index=0
 dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
 
 batch_count=$starting_index
-ending_index=16383 # 16383
-commit_size=50 # Max commit size: 100 MB
+ending_index=10 # 16383
+commit_size=2 # ~75 : Max commit size: 100 MB
 
 for name in $( eval echo {$starting_index..$ending_index} )
 do
@@ -73,13 +73,16 @@ do
     
     if (($commit_ready == commit_size-1)) || (($name == $ending_index))
     then
-        echo "Commit is Ready..."
-        # sh git_upload.sh $start $name
+        echo "Commit is ready -> commit SEQUENCE_${start}_to_${end}"
+        git commit -m "SEQUENCE_${start}_To_${end}"
     fi
 done
 
 # Will only push at the end.
 # lookup: git squash --> ref: https://stackoverflow.com/questions/5189560/how-to-squash-my-last-x-commits-together
 # git push
+
+# More Git command:
+# ref: https://www.bitdegree.org/learn/git-commit-command
 
 
