@@ -67,6 +67,7 @@ do
     
     hello
     world
+    this
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
