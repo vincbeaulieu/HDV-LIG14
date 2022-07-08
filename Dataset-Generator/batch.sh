@@ -45,7 +45,7 @@ do
         
         cd SPOT-RNA >/dev/null
         input_dir="sample_inputs/batch/size_${batch_size}/BATCH_SEQUENCE_${batch_count}.fasta"
-        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
+        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 128 # --gpu 0
         sleep 2
         cd - >/dev/null
         
@@ -64,7 +64,7 @@ do
         
         cd SPOT-RNA >/dev/null
         input_dir="sample_inputs/single/SEQUENCE_${name}.fasta"
-        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --gpu 0 --cpu 16
+        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 128 # --gpu 0
         sleep 2
         cd - >/dev/null
         
