@@ -1,11 +1,23 @@
-name=$1
 
-git add \
-ct/SEQUENCE_$name.ct \
-dbn/SEQUENCE_$name.dbn \
-line/SEQUENCE_${name}_line.png \
-radiate/SEQUENCE_${name}_radiate.png \
-prob/SEQUENCE_$name.prob \
-bpseq/SEQUENCE_$name.bpseq \
-st/SEQUENCE_$name.st \
-fasta/SEQUENCE_$name.fasta
+source ${dir}/SPOT-RNA/git/color.sh
+
+git_add() {
+    local dataset_dir=$1
+    local seq_name=$2
+
+    printf "${NC}${RED}"
+
+    git add \
+    ${dataset_dir}/st/${seq_name}.st \
+    ${dataset_dir}/ct/${seq_name}.ct \
+    ${dataset_dir}/dbn/${seq_name}.dbn \
+    ${dataset_dir}/prob/${seq_name}.prob \
+    ${dataset_dir}/bpseq/${seq_name}.bpseq \
+    ${dataset_dir}/line/${seq_name}_line.png \
+    ${dataset_dir}/radiate/${seq_name}_radiate.png # \
+    # ${dataset_dir}/fasta/${seq_name}.fasta
+    
+    printf "${NC}"
+
+    # Exception is raise if any of these files are missing.
+}

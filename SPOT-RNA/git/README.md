@@ -1,10 +1,10 @@
 # MAN PAGE #  
   
 ## Name:  
-batch.sh, git_add.sh, git_upload.sh, move.sh - SPOT_RNA auto-generator and Git auto-uploader in batch sequences  
+batch.sh, git_add.sh, git_upload.sh, relocate.sh, validate_results.sh, color.sh - SPOT_RNA auto-generator and Git auto-uploader in batch sequences  
   
 ## Synopsis:  
-sh batch.sh [batch_size] [stating_index]  
+sh batch.sh [batch_size] [stating_index] [destination_path]
   
 ## Description:  
 SPOT_RNA auto-generator, with batch_size and starting sequence number as inputs. After every generated batch, missing data, if any, are solved, and all the generated data from the SPOT_RNA algorithm is uploaded to GitHub in batch of 50, to not exceed the 100MB upload limit.  
