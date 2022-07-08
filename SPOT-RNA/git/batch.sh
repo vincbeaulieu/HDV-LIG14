@@ -65,9 +65,9 @@ do
     relocate_copy "${dir}/SPOT-RNA/outputs/SEQUENCE_${name}" "$dataset_directory"
     sleep 1
     
-    echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}" 
+    echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
-    echo "${GREEN}${BOLD}SEQUENCE_${name} Added!${NC}" 
+    echo "${GREEN}${BOLD}SEQUENCE_${name} Added!${NC}"
     
     commit_ready=$(($name % $commit_size))
     start=$(($name - $commit_ready))
