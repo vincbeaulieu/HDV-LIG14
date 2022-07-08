@@ -75,7 +75,7 @@ do
     
     # Relocate Data to $dataset_directory
     echo "${GREEN}${MVUP}Relocating SEQUENCE_${name} to $dataset_directory${NC}"
-    relocate_copy "${dir}/SPOT-RNA/outputs/SEQUENCE_${name}" "$dataset_directory"
+    relocate_move "${dir}/SPOT-RNA/outputs/SEQUENCE_${name}" "$dataset_directory" # relocate_copy(...)
     sleep 1
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
