@@ -66,6 +66,7 @@ do
     sleep 1
     
     hello
+    world
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
