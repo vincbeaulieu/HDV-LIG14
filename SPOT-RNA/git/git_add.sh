@@ -14,8 +14,8 @@ git_add() {
     ${dataset_dir}/prob/${seq_name}.prob \
     ${dataset_dir}/bpseq/${seq_name}.bpseq \
     ${dataset_dir}/line/${seq_name}_line.png \
-    ${dataset_dir}/radiate/${seq_name}_radiate.png \
-    ${dataset_dir}/fasta/${seq_name}.fasta
+    ${dataset_dir}/radiate/${seq_name}_radiate.png # \
+    # ${dataset_dir}/fasta/${seq_name}.fasta
     
     printf "${NC}"
 
