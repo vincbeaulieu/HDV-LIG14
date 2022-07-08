@@ -4,53 +4,68 @@
 # Please run:
 # conda activate venv
 
-BOLD='\033[1m'
-RED='\033[31m'
-NC='\033[0m' # No Color
-
 dir=$(pwd)
 
-# sh batch.sh [batch_size] [stating_index]
+source ${dir}/SPOT-RNA/git/color.sh
+source ${dir}/SPOT-RNA/git/validate_results.sh
+source ${dir}/SPOT-RNA/git/relocate.sh
+
+# COMMAND INFO:
+# sh batch_test.sh [batch_size] [stating_index] [destination_path]
+
+# Assign default values when arguments are not provided
 batch_size=$1 && [ -z "$1" ] && batch_size=1
 starting_index=$2 && [ -z "$2" ] && starting_index=0
+destination_path=$3 && [ -z "$3" ] && destination_path="Datasets/tmp"
 
 batch_count=$starting_index
-
-ending_index=16383
+ending_index=16383 # 16383
 commit_size=50 # Max commit size: 100 MB
 
 for name in $( eval echo {$starting_index..$ending_index} )
 do
+    # Will generate a complete batch using SPOT-RNA (Improve performance over generating individual fasta sequence)
     batch=$(($name % $batch_size))
     if (($batch == 0))
     then
         echo "${BOLD}Generating batch #${batch_count}${NC}"
-        cd SPOT-RNA
-
-        python3 SPOT-RNA.py  --inputs sample_inputs/BATCH_SEQUENCE_${batch_count}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
+        
+        cd SPOT-RNA >/dev/null
+        # python3 SPOT-RNA.py  --inputs sample_inputs/BATCH_SEQUENCE_${batch_count}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
         sleep 2
-
-        cd -
+        cd - >/dev/null
+        
         ((batch_count+=$batch_size))
     fi
+    
+    # Check for missing files and print them in white upon first try
+    all_files_present "${dir}/SPOT-RNA/outputs" ${name}; retval=$?
+    [ "$retval" -eq 1 ] && echo "${BOLD}${RED}SEQUENCE_${name} Failed to Completely Generate${NC}" # oneline if ... then ...
+    IFS=""; printf "%s\n" ${retlog[@]} # IFS set the delimiter for printf
 
-    if test ! -f ${dir}/SPOT-RNA/outputs/SEQUENCE_${name}.dbn
-    then
-        echo "${RED}${BOLD}SEQUENCE_${name} ${NC}${RED}Fail to Generate Completely. Trying to resolve missing data...${NC}"
-        cd SPOT-RNA
+    # Will regenerate missing data using the individual sequence and retry until SPOT-RNA successfully create the files
+    until [ $retval -eq 0 ]
+    do
+        echo "${BOLD}${YELLOW}Trying To Resolve Missing Data${NC}"
         
-        python3 SPOT-RNA.py  --inputs sample_inputs/SEQUENCE_${name}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
+        cd SPOT-RNA >/dev/null
+        # python3 SPOT-RNA.py  --inputs sample_inputs/SEQUENCE_${name}.fasta  --outputs 'outputs/' --plots True --motifs True --gpu 1 --cpu 16
         sleep 2
-        cd -
-    fi
-
-    echo "${BOLD}Adding SEQUENCE_${name}...${NC}"
+        cd - >/dev/null
+        
+        # Check for missing files and print them in red upon retry
+        all_files_present "${dir}/SPOT-RNA/outputs" ${name}; retval=$?
+        printf "${RED}%s\n${NC}" ${retlog[@]}
+    done
     
-    sh move.sh ${name}
-    
+    # Relocate Data to $destination_path
+    echo "${GREEN}${MVUP}Relocating SEQUENCE_${name} to $destination_path${NC}"
+    relocate_copy ${name} ${dir}/SPOT-RNA/outputs $destination_path
     sleep 1
     
-    sh git_add.sh ${name}
+    echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
+    # sh git_add.sh ${name}
+    echo "${GREEN}${BOLD}${MVUP}${DEL}SEQUENCE_${name} Added!${NC}"
     
     commit_ready=$(($name % $commit_size))
     start=$(($name - $commit_ready))
@@ -58,12 +73,12 @@ do
     if (($commit_ready == commit_size-1)) || (($name == $ending_index))
     then
         echo "Commit is Ready..."
-        sh git_upload.sh $start $name
+        # sh git_upload.sh $start $name
     fi
-    
 done
 
 # Will only push at the end.
-git push
+# lookup: git squash --> ref: https://stackoverflow.com/questions/5189560/how-to-squash-my-last-x-commits-together
+# git push
 
 

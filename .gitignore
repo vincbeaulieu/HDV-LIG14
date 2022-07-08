@@ -2,3 +2,6 @@
 !.archive
 __pycache__
 HDV_LIG14.egg-info
+Datasets/tmp
+SPOT-RNA/outputs
+SPOT-RNA/git/test.sh
