@@ -5,7 +5,7 @@
 # Prior to executing the command:
 # - Ensure that the terminal working directory is "HDV-LIG14".
 # - Ensure to have Java Install and to meet the requirement to run SPOT-RNA
-# - Install Graph with the following command
+# - Install Graph with the following command (MacOS):
 #     $ brew install cpanminus && sudo cpanm Graph
 # - Activate the python virtual environment for SPOT-RNA algorithm
 #     $ conda activate venv
@@ -45,7 +45,7 @@ do
         
         cd SPOT-RNA >/dev/null
         input_dir="sample_inputs/batch/size_${batch_size}/BATCH_SEQUENCE_${batch_count}.fasta"
-        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 128 # --gpu 0
+        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 4 # --gpu 0
         sleep 2
         cd - >/dev/null
         
@@ -64,7 +64,7 @@ do
         
         cd SPOT-RNA >/dev/null
         input_dir="sample_inputs/single/SEQUENCE_${name}.fasta"
-        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 128 # --gpu 0
+        python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 4 # --gpu 0
         sleep 2
         cd - >/dev/null
         
@@ -76,7 +76,7 @@ do
     # Relocate Data to $dataset_directory
     echo "${GREEN}${MVUP}Relocating SEQUENCE_${name} to $dataset_directory${NC}"
     relocate_move "${dir}/SPOT-RNA/outputs/SEQUENCE_${name}" "$dataset_directory" # relocate_copy(...)
-    sleep 1
+    sleep 2
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
@@ -105,5 +105,4 @@ git push --force-with-lease
 # ref: https://www.bitdegree.org/learn/git-commit-command
 
 # TODO:
-# - Update and Test SPOT-RNA.py
 # - Generate HDV and LIG data
