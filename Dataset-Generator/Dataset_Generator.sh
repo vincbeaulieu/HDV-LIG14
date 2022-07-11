@@ -23,6 +23,7 @@ nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max)
 
 batch_func() {
     # batch $1 $2 $3 $4 $5 $6 # &> "${basedir}/log/${2}to${4}.log" &
+    mkdir -p "${basedir}/log" # Create log directory if it doesn't exist
     batch $1 $2 $3 $4 $5 $6 2>&1 | tee -a "${basedir}/log/${2}to${4}.log"
 }
 
