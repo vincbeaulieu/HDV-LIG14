@@ -12,9 +12,9 @@ basedir="Dataset-Generator"
 source ${dir}/${basedir}/batch_copy.sh
 
 # create branch if it does not exist, and checkout to it.
-#branch_name="DatasetGenerator"
-#git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
-#git push -u origin ${branch_name} # Publish branch
+# branch_name="DatasetGenerator"
+# git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
+# git push -u origin ${branch_name} # Publish branch
 
 # Assign default values when arguments are not provided
 batch_size=$1 && [ -z "$1" ] && batch_size=1
