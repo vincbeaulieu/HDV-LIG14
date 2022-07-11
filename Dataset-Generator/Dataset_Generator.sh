@@ -22,13 +22,14 @@ starting_index=$2 && [ -z "$2" ] && starting_index=0
 dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
 ending_index=$4 && [ -z "$4" ] && ending_index=16383 #16383
 commit_size=$5 && [ -z "$5" ] && commit_size=50 # ~= 75 MB : Max push size: 100 MB
+cpu=$6 && [ -z "$6" ] && cpu=4
 
 batch_func() {
-    # batch $1 $2 $3 $4 $5 # &> "log/${2}to${4}.log" &
-    batch $1 $2 $3 $4 $5 2>&1 | tee -a "log/${2}to${4}.log"
+    # batch $1 $2 $3 $4 $5 $6 # &> "log/${2}to${4}.log" &
+    batch $1 $2 $3 $4 $5 $6 2>&1 | tee -a "log/${2}to${4}.log"
 }
 
-N=2 # nb of python process
+N=1 # nb of python process
 for name in $(seq $starting_index $batch_size $ending_index)
 do
     ((i=i%N)); ((i++==0)) && wait
@@ -37,7 +38,7 @@ do
     [ $end_index -gt $ending_index ] && end_index=$ending_index
     start_index=$name
    
-    batch_func $batch_size $start_index $dataset_directory $end_index $commit_size
+    batch_func $batch_size $start_index $dataset_directory $end_index $commit_size $cpu
 done
 
 # Spot RNA appears to be using physical cores instead of logical cores. Therefore, multithreading the shell script won't resolve the performance issue.
