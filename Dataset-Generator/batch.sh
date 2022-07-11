@@ -30,11 +30,6 @@ commit_size=$5 && [ -z "$5" ] && commit_size=50 # ~= 75 MB : Max push size: 100 
 batch_count=$starting_index
 # commit_counter=0 # count the number of 'commits' to be squashed
 
-# create branch if it does not exist, and checkout to it.
-branch_name="DatasetGenerator"
-git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
-git push -u origin ${branch_name} # Publish branch
-
 for name in $( eval echo {$starting_index..$ending_index} )
 do
     # Will generate a complete batch using SPOT-RNA (Improve performance over generating individual fasta sequence)
@@ -76,7 +71,7 @@ do
     # Relocate Data to $dataset_directory
     echo "${GREEN}${MVUP}Relocating SEQUENCE_${name} to $dataset_directory${NC}"
     relocate_move "${dir}/SPOT-RNA/outputs/SEQUENCE_${name}" "$dataset_directory" # relocate_copy(...)
-    sleep 2
+    sleep 0.5
     
     echo "${GREEN}${MVUP}${DEL}Adding SEQUENCE_${name}${NC}"
     git_add "${dataset_directory}" "SEQUENCE_${name}"
@@ -89,17 +84,17 @@ do
     if (($commit_ready == commit_size-1)) || (($name == $ending_index))
     then
         echo "Commit Ready for SEQUENCE_${start}_to_${end}"
-        git commit -m "SEQUENCE_${start}_To_${end}"
-        git push
+        #git commit -m "SEQUENCE_${start}_To_${end}"
+        #git push
         # (( commit_counter++ ))
     fi
 done
 
 # Squash all change and push with lease for manual revision
-git checkout main
-git merge --squash ${branch_name}
-git commit --no-edit
-git push --force-with-lease
+#git checkout main
+#git merge --squash ${branch_name}
+#git commit --no-edit
+#git push --force-with-lease
 
 # More Git command:
 # ref: https://www.bitdegree.org/learn/git-commit-command
