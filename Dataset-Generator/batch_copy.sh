@@ -27,6 +27,7 @@ batch() {
     dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
     ending_index=$4 && [ -z "$4" ] && ending_index=16383 # 16383
     commit_size=$5 && [ -z "$5" ] && commit_size=50 # ~= 75 MB : Max push size: 100 MB
+    cpu=$6 && [ -z "$6" ] && cpu=4
 
     batch_count=$starting_index
     # commit_counter=0 # count the number of 'commits' to be squashed
@@ -41,7 +42,7 @@ batch() {
             
             cd SPOT-RNA >/dev/null
             input_dir="sample_inputs/batch/size_${batch_size}/BATCH_SEQUENCE_${batch_count}.fasta"
-            python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 16 # --gpu 0
+            python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu ${cpu} # --gpu 0
             sleep 2
             cd - >/dev/null
             
@@ -60,7 +61,7 @@ batch() {
             
             cd SPOT-RNA >/dev/null
             input_dir="sample_inputs/single/SEQUENCE_${name}.fasta"
-            python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu 16 # --gpu 0
+            python3 SPOT-RNA.py --inputs ${input_dir} --outputs 'outputs/' --plots True --motifs True --cpu ${cpu} # --gpu 0
             sleep 2
             cd - >/dev/null
             
