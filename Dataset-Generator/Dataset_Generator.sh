@@ -12,9 +12,9 @@ basedir="Dataset-Generator"
 source ${dir}/${basedir}/batch_copy.sh
 
 # create branch if it does not exist, and checkout to it.
-branch_name="DatasetGenerator"
-git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
-git push -u origin ${branch_name} # Publish branch
+#branch_name="DatasetGenerator"
+#git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
+#git push -u origin ${branch_name} # Publish branch
 
 # Assign default values when arguments are not provided
 batch_size=$1 && [ -z "$1" ] && batch_size=1
@@ -26,7 +26,7 @@ cpu=$6 && [ -z "$6" ] && cpu=4
 
 batch_func() {
     # batch $1 $2 $3 $4 $5 $6 # &> "log/${2}to${4}.log" &
-    batch $1 $2 $3 $4 $5 $6 2>&1 | tee -a "log/${2}to${4}.log"
+    batch $1 $2 $3 $4 $5 $6 2>&1 | tee -a "${basedir}/log/${2}to${4}.log"
 }
 
 N=1 # nb of python process
