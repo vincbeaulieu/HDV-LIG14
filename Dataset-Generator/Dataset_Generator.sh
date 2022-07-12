@@ -20,7 +20,10 @@ batch_logger() {
     batch $1 $2 $3 $4 $5 $6 2>&1 | tee -a "${basedir}/log/${2}to${4}.log"
 }
 
-batch_logger $1 $2 $3 $4 $5 $6
+if ( batch_logger $1 $2 $3 $4 $5 $6 ) # if command fail
+then
+    echo "\n-- ${YELLOW}Please ensure that the python virtual environment is activated and meet the requirements to run the SPOT-RNA algorithm. More information at: https://github.com/jaswindersingh2/SPOT-RNA${NC} --\n"
+fi
 
 # TODO: NOTE: commands below have --NOT-- been tested! Do your research before using them!
 # Squash all change and push with lease for manual revision
