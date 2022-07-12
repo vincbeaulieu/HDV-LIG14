@@ -8,7 +8,7 @@ nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max)
 
 for name in $( eval echo {$starting_index..$ending_index} )
 do
-    echo $name
+    #echo $name
     commit_ready=$((($name - $starting_index) % $commit_size))
     start=$(($name - $commit_ready))
     end=$name
