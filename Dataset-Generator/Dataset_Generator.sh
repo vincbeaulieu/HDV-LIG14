@@ -2,6 +2,7 @@
 # COMMAND INFO:
 # sh Dataset_Generator.sh [batch_size] [stating_index] [dataset_directory] [ending_index] [commit_size] [nb_of_cpu]
 
+# Global variables: 
 dir=$(pwd)
 basedir="Dataset-Generator"
 
