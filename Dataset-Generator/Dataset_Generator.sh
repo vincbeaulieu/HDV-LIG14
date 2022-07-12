@@ -18,7 +18,7 @@ batch_size=$1 && [ -z "$1" ] && batch_size=1
 starting_index=$2 && [ -z "$2" ] && starting_index=0
 dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
 ending_index=$4 && [ -z "$4" ] && ending_index=16383 #16383
-commit_size=$5 && [ -z "$5" ] && commit_size=500
+commit_size=$5 && [ -z "$5" ] && commit_size=500 # ~= 75 MB : Max push size: 100 MB
 nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max) # sysctl -n hw.logicalcpu_max
 
 batch_func() {
