@@ -11,11 +11,11 @@
 # - Activate the python virtual environment for SPOT-RNA algorithm
 # - Copy the fasta folders "dataset_directory/fasta/single" and "dataset_directory/fasta/batch" to SPOT-RNA/sample_inputs
 
-dir=$(pwd)
-basedir="Dataset-Generator"
+#dir=$(pwd)
+#basedir="Dataset-Generator"
 
 source ${dir}/${basedir}/color.sh
-source ${dir}/${basedir}/validate_results.sh
+source ${dir}/${basedir}/all_files_present.sh
 source ${dir}/${basedir}/relocate.sh
 source ${dir}/${basedir}/git_add.sh
 
@@ -26,7 +26,8 @@ batch() {
     dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
     ending_index=$4 && [ -z "$4" ] && ending_index=16383 # 16383
     commit_size=$5 && [ -z "$5" ] && commit_size=500
-    nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max)
+    nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max) # sysctl -n hw.logicalcpu_max
+    # SPOT-RNA appears to be using physical cores instead of logical cores.
 
     batch_count=$starting_index
     # commit_counter=0 # count the number of 'commits' to be squashed
@@ -49,13 +50,16 @@ batch() {
         fi
         
         # Check for missing files and print them in white upon first try
-        all_files_present "${dir}/SPOT-RNA/outputs" ${name}; retval=$?
-        [ "$retval" -eq 1 ] && echo "${BOLD}${RED}SEQUENCE_${name} Failed to Completely Generate${NC}" # oneline if ... then ...
+        all_files_present "${dir}/SPOT-RNA/outputs" ${name}; retval=$? # from validate_results.sh
+        [ "$retval" -eq 1 ] && echo "${BOLD}${RED}SEQUENCE_${name} Failed to Completely Generate${NC}"
         IFS=""; printf "%s\n" ${retlog[@]} # IFS set the delimiter for printf
 
         # Will regenerate missing data using the individual fasta sequence and retry until SPOT-RNA successfully create the files
+        runtime=0
         until [ $retval -eq 0 ]
         do
+            [ runtime -gt 3 ] && exit 1 || (( runtime++ )) # Sequence failed to generate after 3 times - EXIT CODE 1
+            
             echo "${BOLD}${YELLOW}Trying To Resolve Missing Data${NC}"
             
             cd SPOT-RNA >/dev/null
