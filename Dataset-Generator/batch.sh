@@ -78,7 +78,7 @@ batch() {
         git_add "${dataset_directory}" "SEQUENCE_${name}"
         echo "${GREEN}${BOLD}SEQUENCE_${name} Added!${NC}"
         
-        commit_ready=$(($name % $commit_size))
+        commit_ready=$((($name - $starting_index) % $commit_size))
         start=$(($name - $commit_ready))
         end=$name
         if (($commit_ready == commit_size-1)) || (($name == $ending_index))

@@ -10,7 +10,7 @@ all_files_present() {
 
     local ERROR=0
 
-    retlog=()
+    retlog=() # global variable
 
     # printf "${RED}"
     [[ ! -f ${path}/${seq_name}.st ]] && retlog[0]="${seq_name}.st : MISSING" && ERROR=1
