@@ -58,7 +58,7 @@ batch() {
         runtime=0
         until [ $retval -eq 0 ]
         do
-            [ runtime -gt 3 ] && exit 1 || (( runtime++ )) # Sequence failed to generate after 3 times - EXIT CODE 1
+            [ "$runtime" -gt 3 ] && exit 1 || (( runtime++ )) # Sequence failed to generate after 3 times - EXIT CODE 1
             
             echo "${BOLD}${YELLOW}Trying To Resolve Missing Data${NC}"
             
