@@ -26,22 +26,28 @@ relocate_copy() {
     # copy $dir/SPOT-RNA/sample_inputs/SEQUENCE_${name}.fasta $dir/fasta
 }
 
+move() {
+    local src_file=$1 # source filepath
+    local dest_path=$2 # destination path
+    mkdir -p ${dest_path} && mv ${src_file} ${dest_path}
+}
+
 relocate_move() {
     local src_file=$1 # source filepath
     local dest_path=$2 # destination path
 
     #src_path=${dir}/SPOT-RNA/outputs
-    
+
     #dest_path=Datasets/HDV/
     #dest_path=Datasets/LIG/
     
-    mv ${src_file}.st ${dest_path}/st
-    mv ${src_file}.ct ${dest_path}/ct
-    mv ${src_file}.dbn ${dest_path}/dbn
-    mv ${src_file}.prob ${dest_path}/prob
-    mv ${src_file}.bpseq ${dest_path}/bpseq
-    mv ${src_file}_line.png ${dest_path}/line
-    mv ${src_file}_radiate.png ${dest_path}/radiate
+    move ${src_file}.st ${dest_path}/st
+    move ${src_file}.ct ${dest_path}/ct
+    move ${src_file}.dbn ${dest_path}/dbn
+    move ${src_file}.prob ${dest_path}/prob
+    move ${src_file}.bpseq ${dest_path}/bpseq
+    move ${src_file}_line.png ${dest_path}/line
+    move ${src_file}_radiate.png ${dest_path}/radiate
 }
 
 
