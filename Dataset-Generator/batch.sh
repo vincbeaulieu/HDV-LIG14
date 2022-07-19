@@ -20,14 +20,7 @@ source ${dir}/${basedir}/relocate.sh
 source ${dir}/${basedir}/git_add.sh
 
 batch() {
-    # Assign default values when arguments are not provided
-    batch_size=$1 && [ -z "$1" ] && batch_size=1
-    starting_index=$2 && [ -z "$2" ] && starting_index=0
-    dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
-    ending_index=$4 && [ -z "$4" ] && ending_index=16383 # 16383
-    commit_size=$5 && [ -z "$5" ] && commit_size=500
-    nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max) # sysctl -n hw.logicalcpu_max
-    # SPOT-RNA appears to be using physical cores instead of logical cores.
+    # This function use global variable from Dataset_Generator.sh
 
     batch_count=$starting_index
     # commit_counter=0 # count the number of 'commits' to be squashed
@@ -35,8 +28,8 @@ batch() {
     for name in $( eval echo {$starting_index..$ending_index} )
     do
         # Will generate a complete batch using SPOT-RNA (Improve performance over generating individual fasta sequence)
-        batch=$(($name % $batch_size))
-        if (($batch == 0))
+        batch_nb=$(($name % $batch_size))
+        if (($batch_nb == 0 && $batch_size > 0))
         then
             echo "${BOLD}Generating batch #${batch_count}${NC}"
             

@@ -2,9 +2,18 @@
 # COMMAND INFO:
 # sh Dataset_Generator.sh [batch_size] [stating_index] [dataset_directory] [ending_index] [commit_size] [nb_of_cpu]
 
-# Global variables: 
+# GLOBAL VARIABLES:
 dir=$(pwd)
 basedir="Dataset-Generator"
+
+## GLOBAL VARIABLES - INPUT ARGUMENTS ## - # Assign default values when arguments are not provided
+batch_size=$1 && [ -z "$1" ] && batch_size=0
+starting_index=$2 && [ -z "$2" ] && starting_index=0
+dataset_directory=$3 && [ -z "$3" ] && dataset_directory="Datasets/tmp"
+ending_index=$4 && [ -z "$4" ] && ending_index=16383 # 16383
+commit_size=$5 && [ -z "$5" ] && commit_size=500
+nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max) # sysctl -n hw.logicalcpu_max
+# SPOT-RNA appears to be using physical cores instead of logical cores.
 
 source ${dir}/${basedir}/batch.sh
 
@@ -15,12 +24,11 @@ source ${dir}/${basedir}/batch.sh
 # git push -u origin ${branch_name} # Publish branch
 
 batch_logger() {
-    # batch $1 $2 $3 $4 $5 $6 # &> "${basedir}/log/${2}to${4}.log" &
-    mkdir -p "${basedir}/log" # Create log directory if it doesn't exist
-    batch $1 $2 $3 $4 $5 $6 2>&1 | tee -a "${basedir}/log/${2}to${4}.log"
+    mkdir -p "${basedir}/log/${dataset_directory}" # Create log directory if it doesn't exist
+    batch 2>&1 | tee -a "${basedir}/log/${dataset_directory}/${starting_index}to${ending_index}.log"
 }
 
-if ( batch_logger $1 $2 $3 $4 $5 $6 ) # if command fail
+if ( batch_logger ) # if command fail
 then
     echo "\n-- ${YELLOW}Please ensure that the python virtual environment is activated and meet the requirements to run the SPOT-RNA algorithm. More information at: https://github.com/jaswindersingh2/SPOT-RNA${NC} --\n"
 fi
