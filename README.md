@@ -1,6 +1,6 @@
 # HDV / LIG - Lib14
 
-The Lib14 dataset encompasses 16384 folded sequences generated using the SPOT-RNA algorithm [1]. The goal of this data is to allow the development of machine learning algorithm to better determine the efficiency in self-cleavage and ligation of a given RNA sequence for the HDV-Lib14 and LIG-Lib14, respectively.
+The Lib14 dataset encompasses 16384 folded sequences (size of ~ 107 GB) generated using the SPOT-RNA algorithm [1]. The goal of this data is to allow the development of machine learning algorithm to better determine the efficiency in self-cleavage and ligation of a given RNA sequence for the HDV-Lib14 and LIG-Lib14, respectively.
 
 Both Lib14 sequences have each 14 specific nucleotides that were experimentally modified. Both whole sequence follows the IUPAC nucleotide code to illustrate non-singleton nucleotide modifications [2].
 
