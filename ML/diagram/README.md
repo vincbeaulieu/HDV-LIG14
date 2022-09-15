@@ -1,4 +1,4 @@
-# Title: Donut Diagram  
+# Donut Diagram  
 Suggestion from Dr. Nawwaf Kharma - Concordia University  
   
 Author: Vincent Beaulieu  
