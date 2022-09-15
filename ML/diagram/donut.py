@@ -1,52 +1,85 @@
-import matplotlib.pyplot as plt
 import networkx as nx
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+import numpy as np
+import pandas as pd
 
-# A rainbow color mapping using matplotlib's tableau colors
-node_dist_to_color = {
-    1: "tab:red",
-    2: "tab:orange",
-    3: "tab:olive",
-    4: "tab:green",
-    5: "tab:blue",
-    6: "tab:purple",
-}
+from ML.py_files import toolbox
 
-# Create a complete graph with an odd number of nodes
-nnodes = 13
-G = nx.complete_graph(nnodes)
+G = nx.Graph()
 
-# A graph with (2n + 1) nodes requires n colors for the edges
-n = (nnodes - 1) // 2
-ndist_iter = list(range(1, n + 1))
+# Get data from ".prob" file
+sequence_nb = 1000
+filepath = 'Datasets/HDV/prob/SEQUENCE_'+str(sequence_nb)+'.prob'
+data = toolbox.csv_reader(filepath,delimiter='\t')
 
-# Take advantage of circular symmetry in determining node distances
-ndist_iter += ndist_iter[::-1]
+# Convert data from string to float
+prob_data = np.array(data).astype(float)
 
+# Extract data and create nodes and edges
+edge_stack=[]
+color_stack=[]
+max_prob = 0
+min_prob = 1
+for i in range(prob_data.shape[0]):
+    for j in range(prob_data.shape[1]):
+        tmp_prob = prob_data[i,j]
+        if tmp_prob > 0:
+            if tmp_prob > max_prob: max_prob = tmp_prob
+            if tmp_prob < min_prob: min_prob = tmp_prob
+        G.add_edge(i,j)
+        edge_stack.append(tmp_prob)
+        pass
+    pass
 
-def cycle(nlist, n):
-    return nlist[-n:] + nlist[:-n]
+# Set background color
+plt.style.use('dark_background')
+fig, ax = plt.subplots()
 
+# Choose colormap ref: https://matplotlib.org/stable/tutorials/colors/colormaps.html
+cmap = plt.cm.coolwarm
 
-# Rotate nodes around the circle and assign colors for each edge based on
-# node distance
-nodes = list(G.nodes())
-for i, nd in enumerate(ndist_iter):
-    for u, v in zip(nodes, cycle(nodes, i + 1)):
-        G[u][v]["color"] = node_dist_to_color[nd]
+# Get the colormap colors
+my_cmap = cmap(np.arange(cmap.N))
 
+# Set alpha (transparency)
+my_cmap[:,-1] = np.linspace(0, 1, cmap.N)
+
+# Create new colormap
+my_cmap = mpl.colors.ListedColormap(my_cmap)
+
+# Assign the new color map
+norm = mpl.colors.Normalize(vmin=min_prob, vmax=max_prob)
+m = mpl.cm.ScalarMappable(norm=norm, cmap=my_cmap)
+for e in edge_stack:
+    color_stack.append(m.to_rgba(e))
+
+# Define labels
+filepath = 'Datasets/HDV/fasta/single/SEQUENCE_'+str(sequence_nb)+'.fasta'
+data = toolbox.csv_reader(filepath,delimiter='\n')
+labeldict = {}
+for i in range(len(G.nodes)):
+    tmp = list(data[1][0])
+    labeldict[i] = tmp[i]
+
+# Define the layout
 pos = nx.circular_layout(G)
-# Create a figure with 1:1 aspect ratio to preserve the circle.
-fig, ax = plt.subplots(figsize=(8, 8))
-node_opts = {"node_size": 500, "node_color": "w", "edgecolors": "k", "linewidths": 2.0}
-nx.draw_networkx_nodes(G, pos, **node_opts)
-nx.draw_networkx_labels(G, pos, font_size=14)
-# Extract color from edge data
-edge_colors = [edgedata["color"] for _, _, edgedata in G.edges(data=True)]
+options = {
+    "node_size"  : 100,
+    "node_color" : 'blue',
 
-print(edge_colors)
-exit()
-nx.draw_networkx_edges(G, pos, width=2.0, edge_color=edge_colors)
+    "font_size"   : 8,
+    "with_labels" : True,
+    "labels"      : labeldict,
+    "font_color"  : "w",
 
-ax.set_axis_off()
-fig.tight_layout()
+    "edge_color" : color_stack,
+    "width"      : 1,
+}
+nx.draw_networkx(G, pos, **options)
+
+# Display the diagram
+plt.gca().margins(0)
+plt.tight_layout()
+plt.axis("off")
 plt.show()
