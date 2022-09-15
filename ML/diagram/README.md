@@ -20,5 +20,6 @@ These modifications are:
 - The filepath.  
 - The line number at which the whole RNA sequence is situated in the input file.  
   
+# Output Example:    
 ![](DONUT_EXAMPLE.png)  
   
