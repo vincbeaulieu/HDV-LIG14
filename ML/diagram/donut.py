@@ -11,9 +11,9 @@
 # probabilities of a RNA sequence using a coolwarm colormap
 #
 ###########################################################
-
-# (dark red (G) and dark blue  (C), and light green (A) and light yellow (U))
-# from max thickness of about ~1 mm for ~ 1 prob., to non-existent prob. for anything with too low pairing probability)
+# TODO:
+# -> from max thickness of about ~1 mm for ~ 1 prob., to non-existent prob. for anything with too low pairing probability)
+###########################################################
 
 import networkx as nx
 import matplotlib.pyplot as plt
