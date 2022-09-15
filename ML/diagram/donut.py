@@ -81,22 +81,17 @@ filepath = 'Datasets/HDV/fasta/single/SEQUENCE_'+str(sequence_nb)+'.fasta'
 data = toolbox.csv_reader(filepath,delimiter='\n')
 labeldict = {}
 colordict = []
-fontdict = []
 tmp = list(data[1][0])
 for i in range(len(G.nodes)):
     labeldict[i] = tmp[i]
     if tmp[i] == 'G':
         colordict.append('r')
-        fontdict.append('#FFFFFF')
     elif tmp[i] == 'C':
         colordict.append('b')
-        fontdict.append('#FFFFFF')
     elif tmp[i] == 'A':
         colordict.append('#90EE90') # light green
-        fontdict.append('#000000')
     else:
         colordict.append('#FFFFE0') # light yellow
-        fontdict.append('#000000')
 
 # Define the layout
 pos = nx.circular_layout(G)
