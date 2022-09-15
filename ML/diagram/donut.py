@@ -81,17 +81,22 @@ filepath = 'Datasets/HDV/fasta/single/SEQUENCE_'+str(sequence_nb)+'.fasta'
 data = toolbox.csv_reader(filepath,delimiter='\n')
 labeldict = {}
 colordict = []
+fontdict = []
 tmp = list(data[1][0])
 for i in range(len(G.nodes)):
     labeldict[i] = tmp[i]
     if tmp[i] == 'G':
         colordict.append('r')
+        fontdict.append('#FFFFFF')
     elif tmp[i] == 'C':
         colordict.append('b')
+        fontdict.append('#FFFFFF')
     elif tmp[i] == 'A':
-        colordict.append('g')
+        colordict.append('#90EE90') # light green
+        fontdict.append('#000000')
     else:
-        colordict.append('y')
+        colordict.append('#FFFFE0') # light yellow
+        fontdict.append('#000000')
 
 # Define the layout
 pos = nx.circular_layout(G)
@@ -102,12 +107,18 @@ options = {
     "font_size"   : 8,
     "with_labels" : True,
     "labels"      : labeldict,
-    "font_color"  : "w",
+    "font_color"  : "k",
 
     "edge_color" : color_stack,
     "width"      : 1,
 }
+
 nx.draw_networkx(G, pos, **options)
+
+
+
+#for node, (x, y) in pos.items():
+#   plt.text(x, y, node, color=fontdict[node], label=labeldict[node] , ha='center', va='center')
 
 # Display the diagram
 plt.gca().margins(0)
