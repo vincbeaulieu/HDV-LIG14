@@ -43,9 +43,10 @@ color_stack=[]
 max_prob = 0
 min_prob = 1
 for i in range(prob_data.shape[0]): # row
-    for j in range(prob_data.shape[1]): # col
+    for j in range(i+1,prob_data.shape[1]): # col
         tmp_prob = prob_data[i,j]
-        # print(i,j,tmp_prob); if i == 3: exit()
+        print(i,j,tmp_prob)
+        # if i == 3: exit()
         if tmp_prob > 0:
             if tmp_prob > max_prob: max_prob = tmp_prob
             if tmp_prob < min_prob: min_prob = tmp_prob
@@ -83,12 +84,13 @@ labeldict = {}
 colordict = []
 tmp = list(data[1][0])
 for i in range(len(G.nodes)):
-    labeldict[i] = tmp[i]
-    if tmp[i] == 'G':
+    tmp_i = tmp[i]
+    labeldict[i] = tmp_i
+    if tmp_i == 'G':
         colordict.append('r')
-    elif tmp[i] == 'C':
+    elif tmp_i == 'C':
         colordict.append('b')
-    elif tmp[i] == 'A':
+    elif tmp_i == 'A':
         colordict.append('#90EE90') # light green
     else:
         colordict.append('#FFFFE0') # light yellow
@@ -99,7 +101,7 @@ options = {
     "node_size"  : 100,
     "node_color" : colordict,
 
-    "font_size"   : 8,
+    "font_size"   : 10,
     "with_labels" : True,
     "labels"      : labeldict,
     "font_color"  : "k",
