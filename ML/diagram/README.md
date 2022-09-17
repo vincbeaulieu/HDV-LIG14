@@ -1,9 +1,10 @@
 # Donut Diagram  
-Suggestion from Dr. Nawwaf Kharma - Concordia University  
   
 File: donut.py, plot_style.py  
 Author: Vincent Beaulieu  
 Date: 14 September 2022  
+
+Suggestion from Dr. Nawwaf Kharma - Concordia University  
   
 ## Info:  
 Display in a circular diagram the folding probabilities of an RNA sequence using a coolwarm colormap  
