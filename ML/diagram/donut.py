@@ -23,7 +23,7 @@ from ML.py_files import toolbox
 ###########################################################
 # Plot style (background color)
 figure_style = plot_style()
-figure_style.select("black")     # white / gray / black
+figure_style.select("gray")     # white / gray / black
 ###########################################################
 # Edge thickness control parameters:
 weight = 4                      # thickness multiplier

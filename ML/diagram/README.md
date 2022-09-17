@@ -20,7 +20,11 @@ This code is mostly generalized and may require minimal modification to adapt it
 These modifications are:  
 - The filepath.  
 - The line number at which the whole RNA sequence is situated in the input file.  
-  
+- The styles parameters:  
+    - Relative edge thickness enabled/disabled (parameter: edge_thickness_control)  
+    - Edge thickness multiplier (parameter: weight)  
+    - Plot style white/gray/black  
+    
 ## Output Example:    
-![](DONUT_EXAMPLE.png)  
+![](media/black_style.png)
   
