@@ -1,7 +1,7 @@
 # Donut Diagram  
 Suggestion from Dr. Nawwaf Kharma - Concordia University  
   
-File: donut.py  
+File: donut.py, plot_style.py  
 Author: Vincent Beaulieu  
 Date: 14 September 2022  
   
