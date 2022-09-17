@@ -49,8 +49,6 @@ min_prob = 1
 for i in range(prob_data.shape[0]): # row
     for j in range(i+1,prob_data.shape[1]): # col
         tmp_prob = prob_data[i,j]
-        # print(i,j,tmp_prob)
-        # if i == 3: exit()
         if tmp_prob > 0:
             if tmp_prob > max_prob: max_prob = tmp_prob
             if tmp_prob < min_prob: min_prob = tmp_prob
