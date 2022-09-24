@@ -36,6 +36,7 @@ This graph was generated using the testing set, in other words, the data that wa
 
 ## Example of folded HDV RNA
 ![](Datasets/HDV/radiate/SEQUENCE_10343_radiate.png)
+Figure 3: HDV/radiate/SEQUENCE_10343_radiate.png
 
 ## REFERENCES: ##  
 [1] https://github.com/jaswindersingh2/SPOT-RNA  
