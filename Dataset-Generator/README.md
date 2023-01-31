@@ -7,7 +7,7 @@ batch.sh, git_add.sh, git_upload.sh, relocate.sh, validate_results.sh, color.sh 
 sh batch.sh [batch_size] [stating_index] [destination_path]
   
 ## Description:  
-SPOT_RNA auto-generator, with batch_size and starting sequence number as inputs. After every generated batch, missing data, if any, are solved, and all the generated data from the SPOT_RNA algorithm is uploaded to GitHub in batch of 50, to not exceed the 100MB upload limit.  
+SPOT_RNA auto-generator, with batch_size and starting sequence number as inputs. After every generated batch, missing data, if any, are resolved, and all the generated data from the SPOT_RNA algorithm is uploaded to GitHub. The number of sequences to be committed are limited to not exceed the 100MB limits established by github. The push frequence can be selected based on system stability and personnal preferences. 
   
 ## Options:  
 Does not take any options.  
@@ -28,7 +28,7 @@ $ sh batch.sh 100 0
 Vincent Beaulieu  
   
 ## Copyright:
-(c) 2021-2022 Vincent Beaulieu  
+(c) 2021-2023 Vincent Beaulieu  
     All rights reserved.  
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.  
