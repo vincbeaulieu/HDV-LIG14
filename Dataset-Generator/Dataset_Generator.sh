@@ -30,7 +30,7 @@ batch_logger() {
 
 if ( batch_logger ) # if command fail
 then
-    echo "\n-- ${YELLOW}Please ensure that the python virtual environment is activated and meet the requirements to run the SPOT-RNA algorithm. More information at: https://github.com/jaswindersingh2/SPOT-RNA${NC} --\n"
+    echo "\n-- ${YELLOW}Please ensure that the python virtual environment is activated and that your system meets the requirements to run the SPOT-RNA algorithm. More information at: https://github.com/jaswindersingh2/SPOT-RNA${NC} --\n"
 fi
 
 # TODO: NOTE: commands below have --NOT-- been tested! Do your research before using them!
