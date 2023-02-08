@@ -4,17 +4,20 @@ import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
+import tensorflow as tf
 from tensorflow import keras as tfk
 import pickle as pk
 
 from Lib14.data_properties import HDV_LIG14
 import toolbox
 
-
 # Defining filepaths:
 filepath_flat = 'ML/raw/flat/'
 filepath_encoded = 'ML/raw/encoded/'
 filepath_prediction = 'ML/raw/prediction/'
+filepath_saved_model = 'ML/pkl/'
+
+filename_saved_model = 'test_model.pkl'
 
 
 # print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
@@ -84,34 +87,59 @@ def neural_network():
     hdv_flat = np.asarray(hdv_flat).astype('float32')
 
     # ANN for NT Data
-    x_train, x_test, y_train, y_test = train_test_split(dataframe, hdv_flat, test_size=1 / 10, random_state=0)
+    x_train, x_test, y_train, y_test = train_test_split(dataframe, hdv_flat, test_size=3/5)
     # NOTE: 10-fold cross-validation may be implemented
 
     # Artificial Neural Network
     model = tfk.models.Sequential()
 
-    input_units = dataframe_size
-    output_units = 4
-    hidden_units = (input_units + output_units) * (2 / 3)
+    # Verify if model exist, create a model if it doesn't
+    if os.path.exists(filepath_saved_model + filename_saved_model):
+        # Load model if it exists
+        model = load(filepath_saved_model + filename_saved_model)
+        weights = model.get_weights()
+        model.compile(optimizer=tfk.optimizers.Adagrad(),
+                      loss=tfk.losses.MeanSquaredLogarithmicError(),
+                      metrics=tfk.metrics.AUC())
+        model.set_weights(weights)
+    else:
+        # Defining nodes quantities
+        input_units = dataframe_size
+        output_units = 4
+        hidden_units = input_units
 
-    # Nucleotide input layer
-    model.add(tfk.layers.Dense(units=input_units, activation='relu'))
+        # Input layer
+        model.add(tfk.layers.Dense(units=input_units, activation='relu'))
 
-    # Hidden layers
-    model.add(tfk.layers.Dense(units=hidden_units, activation='relu'))
-    model.add(tfk.layers.Dense(units=hidden_units, activation='relu'))
+        # Hidden layers
+        model.add(tfk.layers.Dense(units=hidden_units))
+        model.add(tfk.layers.LeakyReLU())
+        model.add(tfk.layers.Dense(units=hidden_units))
+        model.add(tfk.layers.LeakyReLU())
 
-    # Output layer
-    model.add(tfk.layers.Dense(units=output_units, activation='sigmoid'))
+        # Output layer
+        model.add(tfk.layers.Dense(units=output_units, activation='sigmoid'))
 
-    # Generate the ANN
-    model.compile(optimizer='Adagrad', loss='poisson', metrics=['accuracy'])
+        # Create the ANN
+        model.compile(optimizer='Adagrad', loss='poisson', metrics=['accuracy'])
 
     # Feed data to Neural Network
     # NOTE: Lookup 'Mixed Data' Neural Network
-    model.fit(x_train, y_train, batch_size=len(x_train), epochs=250)
 
+    # Train the model
+    model.fit(x_train, y_train, batch_size=len(x_train), epochs=30)
+
+    # Save the model
+    save(model, filepath_saved_model + filename_saved_model)
+
+    # Evaluate prediction accuracy of the model
     prediction = model.predict(x_test)
+
+    # Plot the results
+    plt.scatter(prediction, y_test)
+    plt.xticks([])
+    plt.yticks([])
+    plt.show()
 
     for i, p in enumerate(prediction):
         for j, q in enumerate(p):
@@ -120,13 +148,9 @@ def neural_network():
             else:
                 prediction[i][j] = f'{q:.4f}'
 
+    # Save predict and test results to a csv file
     toolbox.dataset_to_csv(filepath_prediction + 'prediction.csv', prediction)
     toolbox.dataset_to_csv(filepath_prediction + 'y_test.csv', y_test)
-
-    save(model, 'pkl/nt_MachineLearning_model.pkl')
-
-    model = load('pkl/nt_MachineLearning_model.pkl')
-    print(model.predict(x_test))
 
 
 # Save a machine learning model
@@ -165,22 +189,19 @@ def evaluate():
     hdv_flat = np.transpose(hdv_flat)
     hdv_flat = toolbox.dataset_to_csv(filepath_flat + 'hdv_flat.csv', hdv_flat)
 
-    # Todo: Remove, Repeating code, inefficient
-    nt_flat = []
-    lines = toolbox.reader(filepath_encoded + 'nt_encoded.csv')
-    nt_flat = toolbox.merge(lines, 3)
-    nt_flat = toolbox.dataset_to_csv(filepath_flat + 'nt_flat.csv', nt_flat)
+    # Read Data
+    nt_flat = pd.DataFrame(toolbox.csv_reader(filepath_flat + 'nt_flat.csv'))
 
     # Convert types
     hdv_flat = np.asarray(hdv_flat).astype('float32')
-    nt_flat = np.asarray(nt_flat).astype(np.int_)
+    # nt_flat = np.asarray(nt_flat).astype(np.int_)
 
-    # Predict the whole set to evaluate the rank of each results.
+    # Predict the whole set to evaluate the rank of each result.
     # Knn will be applied to determine a rank on unranked data.
-    model = load('pkl/nt_MachineLearning_model.pkl')
+    model = load(filepath_saved_model + filename_saved_model)
     pred = model.predict(nt_flat)
 
-    percent_error = abs((pred[:, 0] - hdv_flat[:, 0])) / hdv_flat[:, 0] * 100
+    # percent_error = abs((pred[:, 0] - hdv_flat[:, 0])) / hdv_flat[:, 0] * 100
     # toolbox.dataset_to_csv('csv/prediction/percent_error.csv',percent_error)
 
     plt.scatter(pred[:, 0], hdv_flat[:, 0])
@@ -188,14 +209,19 @@ def evaluate():
     plt.yticks([])
     plt.show()
 
-    pass
-
 
 def test():
     print("Testing HDV-LIG14 Neural Network...")
 
     # Testing Neural Network
-    neural_network()
-    evaluate()
-    plot()
-    pass
+    i = 0
+    while i < 200:
+        neural_network()
+        i += 1
+
+    # evaluate()
+    # plot()
+
+
+# References:
+# https://stackoverflow.com/questions/60996892/how-to-replace-loss-function-during-training-tensorflow-keras
