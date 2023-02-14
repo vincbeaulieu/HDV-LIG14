@@ -5,7 +5,6 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 import tensorflow as tf
-from tensorflow import keras as tfk
 import pickle as pk
 
 from Lib14.data_properties import HDV_LIG14
@@ -91,16 +90,16 @@ def neural_network():
     # NOTE: 10-fold cross-validation may be implemented
 
     # Artificial Neural Network
-    model = tfk.models.Sequential()
+    model = tf.keras.models.Sequential()
 
     # Verify if model exist, create a model if it doesn't
     if os.path.exists(filepath_saved_model + filename_saved_model):
         # Load model if it exists
         model = load(filepath_saved_model + filename_saved_model)
         weights = model.get_weights()
-        model.compile(optimizer=tfk.optimizers.Adagrad(),
-                      loss=tfk.losses.MeanSquaredLogarithmicError(),
-                      metrics=tfk.metrics.AUC())
+        model.compile(optimizer=tf.keras.optimizers.Adagrad(),
+                      loss=tf.keras.losses.MeanSquaredLogarithmicError(),
+                      metrics=tf.keras.metrics.AUC())
         model.set_weights(weights)
     else:
         # Defining nodes quantities
@@ -109,16 +108,16 @@ def neural_network():
         hidden_units = input_units
 
         # Input layer
-        model.add(tfk.layers.Dense(units=input_units, activation='relu'))
+        model.add(tf.keras.layers.Dense(units=input_units, activation='relu'))
 
         # Hidden layers
-        model.add(tfk.layers.Dense(units=hidden_units))
-        model.add(tfk.layers.LeakyReLU())
-        model.add(tfk.layers.Dense(units=hidden_units))
-        model.add(tfk.layers.LeakyReLU())
+        model.add(tf.keras.layers.Dense(units=hidden_units))
+        model.add(tf.keras.layers.LeakyReLU())
+        model.add(tf.keras.layers.Dense(units=hidden_units))
+        model.add(tf.keras.layers.LeakyReLU())
 
         # Output layer
-        model.add(tfk.layers.Dense(units=output_units, activation='sigmoid'))
+        model.add(tf.keras.layers.Dense(units=output_units, activation='sigmoid'))
 
         # Create the ANN
         model.compile(optimizer='Adagrad', loss='poisson', metrics=['accuracy'])
@@ -127,7 +126,7 @@ def neural_network():
     # NOTE: Lookup 'Mixed Data' Neural Network
 
     # Train the model
-    model.fit(x_train, y_train, batch_size=len(x_train), epochs=30)
+    model.fit(x_train, y_train, batch_size=len(x_train), epochs=1000)
 
     # Save the model
     save(model, filepath_saved_model + filename_saved_model)
@@ -207,7 +206,7 @@ def evaluate():
     plt.scatter(pred[:, 0], hdv_flat[:, 0])
     plt.xticks([])
     plt.yticks([])
-    plt.show()
+    plt.draw()
 
 
 def test():
