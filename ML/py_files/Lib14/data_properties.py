@@ -106,7 +106,7 @@ class HDV_LIG14():
     def seq_amount(self):
         # return library array length
         return 16384
-
+    
     pass
 
 

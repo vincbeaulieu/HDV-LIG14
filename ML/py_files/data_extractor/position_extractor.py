@@ -32,7 +32,8 @@ def position_extractor():
     lig_list_title = "LIG IUPAC nucleotides positions:"
     lig_nt_pos = get_nt_position(LIG_Lib14_RNA)
 
-    temp_warning = "* There might be an error in the provided assignment guides about the RED letters."
+    # temp_warning = "* There might be an error in the provided assignment guides about the RED letters."
+    temp_warning = "All Good! Have a nice day!"
 
     filepath = currentdir + "/" + "nt_position.txt"
     print(filepath)

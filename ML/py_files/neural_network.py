@@ -4,7 +4,14 @@ import numpy as np
 import pandas as pd
 
 from sklearn.model_selection import train_test_split
-import tensorflow as tf
+
+from tensorflow import keras as tfk
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from keras.models import Sequential
+from keras.optimizers import Adagrad
+from keras.losses import MeanSquaredLogarithmicError
+from keras.metrics import AUC, Accuracy
+
 import pickle as pk
 
 from Lib14.data_properties import HDV_LIG14
@@ -17,7 +24,6 @@ filepath_prediction = 'ML/raw/prediction/'
 filepath_saved_model = 'ML/pkl/'
 
 filename_saved_model = 'test_model.pkl'
-
 
 # print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
@@ -80,44 +86,42 @@ def neural_network():
     nt_flat, db_flat, kt_flat, lp_flat = dim_redux()
 
     dataframe = pd.concat([nt_flat, db_flat, kt_flat, lp_flat], axis=1)
-    dataframe_size = len(dataframe.axes[1])
     dataframe = np.asarray(dataframe).astype(np.byte)
 
     hdv_flat = np.asarray(hdv_flat).astype('float32')
 
-    # ANN for NT Data
+    # Create training and testing data
     x_train, x_test, y_train, y_test = train_test_split(dataframe, hdv_flat, test_size=3/5)
-    # NOTE: 10-fold cross-validation may be implemented
 
     # Artificial Neural Network
-    model = tf.keras.models.Sequential()
+    model = Sequential()
 
     # Verify if model exist, create a model if it doesn't
     if os.path.exists(filepath_saved_model + filename_saved_model):
         # Load model if it exists
         model = load(filepath_saved_model + filename_saved_model)
         weights = model.get_weights()
-        model.compile(optimizer=tf.keras.optimizers.Adagrad(),
-                      loss=tf.keras.losses.MeanSquaredLogarithmicError(),
-                      metrics=tf.keras.metrics.AUC())
+        model.compile(optimizer=Adagrad(),
+                      loss=MeanSquaredLogarithmicError(),
+                      metrics=AUC())
         model.set_weights(weights)
     else:
         # Defining nodes quantities
-        input_units = dataframe_size
+        input_units = len(dataframe.axes[1])
         output_units = 4
         hidden_units = input_units
 
         # Input layer
-        model.add(tf.keras.layers.Dense(units=input_units, activation='relu'))
+        model.add(Dense(units=input_units, activation='relu'))
 
         # Hidden layers
-        model.add(tf.keras.layers.Dense(units=hidden_units))
-        model.add(tf.keras.layers.LeakyReLU())
-        model.add(tf.keras.layers.Dense(units=hidden_units))
-        model.add(tf.keras.layers.LeakyReLU())
+        model.add(Dense(units=hidden_units))
+        model.add(LeakyReLU())
+        model.add(Dense(units=hidden_units))
+        model.add(LeakyReLU())
 
         # Output layer
-        model.add(tf.keras.layers.Dense(units=output_units, activation='sigmoid'))
+        model.add(Dense(units=output_units, activation='sigmoid'))
 
         # Create the ANN
         model.compile(optimizer='Adagrad', loss='poisson', metrics=['accuracy'])
