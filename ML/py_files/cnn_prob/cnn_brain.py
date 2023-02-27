@@ -20,12 +20,14 @@ def cnn():
     with strategy.scope():
         # Create a CNN model
         model = Sequential([
-            Conv2D(32, (3, 3), activation='relu', input_shape=(129, 64, 1)),
+            Conv2D(128, (5, 5), activation='relu', input_shape=(129, 64, 1)),
+            MaxPooling2D((3, 3)),
+            Conv2D(64, (4, 4), activation='relu'),
             MaxPooling2D((2, 2)),
-            Conv2D(64, (3, 3), activation='relu'),
+            Conv2D(32, (3, 3), activation='relu'),
             MaxPooling2D((2, 2)),
             Flatten(),
-            Dense(64, activation='relu'),
+            Dense(16, activation='relu'),
             Dense(1, activation='linear')
         ])
         
@@ -40,8 +42,8 @@ def cnn():
 
 if __name__ == '__main__':
     # Load the image data and y values
-    X_ori = np.load(gb.save_path + 'images.npy')
-    y_ori = np.load(gb.save_path + 'fitness.npy')
+    X_ori = np.load(gb.save_path + 'npy/images.npy')
+    y_ori = np.load(gb.save_path + 'npy/fitness.npy')
 
     # Create a new copy of X and y where zero values are removed
     X = X_ori[y_ori != 0]
@@ -56,14 +58,14 @@ if __name__ == '__main__':
 
     # Select/Load the model
     model = cnn()
-    # model = gb.load("cnn_brain.pkl")
+    # model = gb.load("pkl/cnn_brain.pkl")
 
     # Fit the model using multiprocessing
     # gb.run_multiple(gb.fit_model, model, train_X, train_y, val_X, val_y)
     gb.fit_model(model, train_X, train_y, val_X, val_y)
 
     # Save the trained model
-    gb.save(model, "cnn_brain.pkl")
+    gb.save(model, "pkl/cnn_brain.pkl")
 
     # Evaluate the model
     test_loss, test_mae = model.evaluate(test_X, test_y)

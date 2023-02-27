@@ -33,13 +33,17 @@ def run_multiple(function, *args):
 
 # Evaluate prediction accuracy of the model
 def predict(model, test_X, test_y):
-    prediction = model.predict(test_X)
+    # Predict on test data
+    predictions = model.predict(test_X)
 
     # Plot the results
-    plt.scatter(prediction, test_y)
+    plt.scatter(predictions, test_y)
     plt.xticks([])
     plt.yticks([])
     plt.show()
+
+    # Return results
+    return predictions
 
 
 # Save model (file extension: ".pkl")
