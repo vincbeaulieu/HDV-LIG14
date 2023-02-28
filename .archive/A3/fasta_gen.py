@@ -7,7 +7,7 @@ def fasta_gen(rna_seq, rna_nt_pos, output_dir="", batch_size=None):
     print("Hello")
 
     seq_amount = HDV_LIG14.seq_amount
-    genotypes = HDV_LIG14.genotypes
+    genotypes = HDV_LIG14.snp_nucleotides
 
     batch = 0
     gen_index = 0

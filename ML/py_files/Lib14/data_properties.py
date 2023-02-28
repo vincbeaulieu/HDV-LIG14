@@ -1,10 +1,10 @@
-
-
 import os
 import inspect
+
 currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
 import sys
+
 parentdir = os.path.dirname(currentdir)
 rootdir = os.path.dirname(parentdir)
 # sys.path.insert(0, parentdir)
@@ -14,14 +14,16 @@ rootdir = os.path.dirname(parentdir)
 
 import pandas as pd
 
+
 # This decorator configuration allow for mutability within objects
 # as opposed to @staticmethod. However, @staticmethod should run faster.
 def classproperty(func):
-   return classmethod(property(func))
+    return classmethod(property(func))
+
 
 class HDV_LIG14():
 
-    #--- Data ---#
+    # --- Data ---#
 
     @classproperty
     def col_names(self):
@@ -31,12 +33,12 @@ class HDV_LIG14():
                 'HDV_delta',
                 'Ligase_fitness',
                 'Ligase_delta']
-    
+
     @classproperty
     def dataframe(self):
         # The CSV file was extracted with Excel
-        return pd.read_csv(rootdir + "/" +'raw/'+'HDV-LIG14_fitness_table.csv',
-                                     usecols=self.col_names[:])
+        return pd.read_csv(rootdir + "/" + 'raw/' + 'HDV-LIG14_fitness_table.csv',
+                           usecols=self.col_names[:])
 
     @classproperty
     def dataset(self):
@@ -45,16 +47,16 @@ class HDV_LIG14():
     @classproperty
     def hdv_rna_sequence(self):
         # HDV_Lib14_RNA
-        return  'GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGG' \
-                'GAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCAT' \
-                'CGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC'
-    
+        return 'GGACCATTCGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGG' \
+               'GAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCAT' \
+               'CGATCCGGTTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC'
+
     @classproperty
     def lig_rna_sequence(self):
         # LIG_Lib14_RNA
-        return  'GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSG' \
-                'CKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGG' \
-                'TTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC'
+        return 'GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSG' \
+               'CKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCATCGATCCGG' \
+               'TTCGCCGGATCCAAATCGGGCTTCGGTCCGGTTC'
 
     @classproperty
     def hdv_nt_position(self):
@@ -66,24 +68,24 @@ class HDV_LIG14():
         #
         # Data obtained from position_extractor.py with hdv_nt_pos[:,2]
         return [11, 21, 26, 36, 50, 53, 63, 66, 70, 71, 76, 81, 83, 84]
-    
+
     @classproperty
     def lig_nt_position(self):
         # nt stand for nucleotide
         # Data obtained from position_extractor.py with lig_nt_pos[:,2]
         return [3, 13, 18, 28, 42, 45, 55, 58, 62, 63, 68, 73, 75, 76]
 
-    #--- Dataset getters ---#
+    # --- Dataset getters ---#
 
     @classproperty
-    def sequences(self):
+    def indexes(self):
         # return the sequence number
         return self.dataset[:, 0]
-    
+
     @classproperty
-    def genotypes(self):
+    def snp_nucleotides(self):
         return self.dataset[:, 1]
-    
+
     @classproperty
     def hdv_fitness(self):
         return self.dataset[:, 2]
@@ -98,15 +100,15 @@ class HDV_LIG14():
 
     @classproperty
     def ligase_delta(self):
-        return self.dataset[:, 5]            
+        return self.dataset[:, 5]
 
-    #--- Attributes ---#
+        # --- Attributes ---#
 
     @classproperty
     def seq_amount(self):
         # return library array length
         return 16384
-    
+
     pass
 
 
@@ -119,8 +121,8 @@ def test():
     print(HDV_LIG14.hdv_nt_position)
 
     # Dataset getters
-    print(HDV_LIG14.sequences)
-    print(HDV_LIG14.genotypes)
+    print(HDV_LIG14.indexes)
+    print(HDV_LIG14.snp_nucleotides)
     print(HDV_LIG14.hdv_fitness)
     print(HDV_LIG14.hdv_delta)
     print(HDV_LIG14.ligase_fitness)
@@ -136,5 +138,5 @@ def test():
 
 if __name__ == '__main__':
     test()
-    print(HDV_LIG14.genotypes)
+    print(HDV_LIG14.snp_nucleotides)
     pass
