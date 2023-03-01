@@ -15,7 +15,7 @@ h5py==3.8.0
 idna==3.4
 importlib-metadata==6.0.0
 joblib==1.2.0
-keras==2.11.0
+keras~=2.9.0
 Keras-Preprocessing==1.1.2
 kiwisolver==1.4.4
 libclang==15.0.6.1
@@ -56,3 +56,6 @@ urllib3==1.26.14
 Werkzeug==2.2.2
 wrapt==1.14.1
 zipp==3.12.1
+
+plotly~=5.13.1
+setuptools~=57.4.0
