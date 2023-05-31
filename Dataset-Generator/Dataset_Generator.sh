@@ -33,7 +33,7 @@ then
     echo "\n-- ${YELLOW}Please ensure that the python virtual environment is activated and that your system meets the requirements to run the SPOT-RNA algorithm. More information at: https://github.com/jaswindersingh2/SPOT-RNA${NC} --\n"
 fi
 
-# TODO: NOTE: commands below have --NOT-- been tested! Do your research before using them!
+# NOTE: commands below have --NOT-- been tested!
 # Squash all change and push with lease for manual revision
 # git checkout main
 # git merge --squash ${branch_name}
