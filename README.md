@@ -16,7 +16,10 @@ GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCAT
 | HDV nt positions | 11 | 21 | 26 | 36 | 50 | 53 | 63 | 66 | 70 | 71 | 76 | 81 | 83 | 84 |
 | LIG nt positions | 3  | 13 | 18 | 28 | 42 | 45 | 55 | 58 | 62 | 63 | 68 | 73 | 75 | 76 |
   
-  
+
+## Preprocessing Results (PCA)
+![](PCA/Screenshots/Screenshot 1.png)  
+
 ## HDV-Lib14 Machine Learning Outputs: 
 
 In progress...
