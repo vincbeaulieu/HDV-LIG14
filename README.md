@@ -18,7 +18,7 @@ GGAMTCCCATTAGRCTGGKCCGCCTCCTSGCGGCGGGAGTTGSGCKAGGGAGGAASAGYCTTYYCTAGRCTAASGMSCAT
   
 
 ## Preprocessing Results (PCA)
-![](PCA/Screenshots/Screenshot 1.png)  
+![PCA results](PCA/Screenshots/Screenshot%201.png)  
 
 ## HDV-Lib14 Machine Learning Outputs: 
 
