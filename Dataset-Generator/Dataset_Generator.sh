@@ -17,7 +17,7 @@ nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max) # sysct
 
 source ${dir}/${basedir}/batch.sh
 
-# TODO: NOTE: Do your research before using the following command!
+# NOTE: Do your research before using the following command!
 # create branch if it does not exist, and checkout to it.
 # branch_name="DatasetGenerator"
 # git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
