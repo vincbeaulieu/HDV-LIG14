@@ -17,7 +17,7 @@ nb_of_cpu=$6 && [ -z "$6" ] && nb_of_cpu=$(sysctl -n hw.physicalcpu_max) # sysct
 
 source ${dir}/${basedir}/batch.sh
 
-# NOTE: Do your research before using the following command!
+# NOTE: The commands below have NOT been tested.
 # create branch if it does not exist, and checkout to it.
 # branch_name="DatasetGenerator"
 # git checkout ${branch_name} 2>/dev/null || git checkout -b ${branch_name}
@@ -33,7 +33,7 @@ then
     echo "\n-- ${YELLOW}Please ensure that the python virtual environment is activated and that your system meets the requirements to run the SPOT-RNA algorithm. More information at: https://github.com/jaswindersingh2/SPOT-RNA${NC} --\n"
 fi
 
-# NOTE: commands below have --NOT-- been tested!
+# NOTE: The commands below have NOT been tested.
 # Squash all change and push with lease for manual revision
 # git checkout main
 # git merge --squash ${branch_name}
