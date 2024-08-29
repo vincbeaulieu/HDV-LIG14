@@ -1,4 +1,5 @@
-# HDV / LIG - Lib14
+# HDV Ribozyme Auto-Cleavage and Ligation Prediction Using Machine Learning
+## HDV / LIG - Lib14
 
 The Lib14 dataset encompasses 3 datasets of 16384 folded sequences (size of ~ 107 GB) generated using the SPOT-RNA algorithm [1]. The goal of this data is to allow the development of machine learning algorithm to better determine the efficiency in self-cleavage and ligation of a given RNA sequence for the HDV-Lib14 and LIG-Lib14, respectively.
 
