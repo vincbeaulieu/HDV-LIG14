@@ -6,7 +6,7 @@ from matplotlib.widgets import Button
 import matplotlib.patches as patches
 
 # Configuration
-PATH = "Datasets/HDV-Lib14.xlsx"
+PATH = "Data_Visualisation/HDV-Lib14.xlsx"
 NUCLEOTIDE_MAPPING = {"A": 0, "T": 1, "C": 2, "G": 3, "g": 3}
 COLOR_PALETTE = ["purple", "blue", "cyan", "green", "lime", "yellow", 
                  "magenta", "red", "orange", "white", "grey", "black"]
