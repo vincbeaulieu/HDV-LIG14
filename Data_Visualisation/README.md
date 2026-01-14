@@ -19,7 +19,7 @@ pip install openpyxl numpy matplotlib
 
 ## Usage
 
-1. Place your Excel file at `Datasets/HDV-Lib14.xlsx`
+1. Have your Excel file at `Data_Visualisation/HDV-Lib14.xlsx`
 2. Ensure your data structure:
    - Columns G-T: Individual nucleotide positions
    - Column B: Fitness metric 1
