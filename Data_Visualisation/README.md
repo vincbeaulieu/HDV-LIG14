@@ -24,7 +24,7 @@ pip install openpyxl numpy matplotlib
    - Columns G-T: Individual nucleotide positions
    - Column B: Fitness metric 1
    - Column D: Fitness metric 2
-3. Run the script as a module from project root:
+3. Run the script as a module from the project root:
 ```bash
 python -m Data_Visualisation.nucleotide_visualizer
 ```
